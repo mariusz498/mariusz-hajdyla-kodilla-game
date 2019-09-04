@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 
 public class ElementalClash extends Application {
 
-    private Image backgroundImg = new Image("file:D:\\Coding\\mariusz-hajdyla-kodilla-game\\src\\main\\resources\\pics\\background.jpg");
-    private Image lavaGround = new Image("file:D:\\Coding\\mariusz-hajdyla-kodilla-game\\src\\main\\resources\\pics\\lavaGround.jpg");
+    private Image backgroundImg = new Image("file:D:\\kodilla\\mariusz-hajdyla-kodilla-game\\src\\main\\resources\\pics\\background.jpg");
+    private Image lavaGround = new Image("file:D:\\kodilla\\mariusz-hajdyla-kodilla-game\\src\\main\\resources\\pics\\lavaGround.jpg");
     private FlowPane objects = new FlowPane(Orientation.HORIZONTAL);
 
     public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class ElementalClash extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        BackgroundSize backgroundSize = new BackgroundSize(100 , 100, true, true, true, false);
+        BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage backgroundImage = new BackgroundImage(backgroundImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         Background background = new Background(backgroundImage);
 
@@ -39,7 +39,7 @@ public class ElementalClash extends Application {
 
         grid.add(objects, 0, 0, 3, 1);
 
-        Scene scene = new Scene(grid, 1920, 1080, Color.BLACK);
+        Scene scene = new Scene(grid, 1600, 900, Color.BLACK);
 
         primaryStage.setTitle("ElementalClash");
         primaryStage.setScene(scene);
