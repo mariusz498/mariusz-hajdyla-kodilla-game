@@ -1,4 +1,6 @@
 package com.kodilla.game;
+import com.kodilla.game.creatures.Creature;
+import com.kodilla.game.creatures.FireWolf;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -33,6 +35,20 @@ public class ElementalClash extends Application {
         return imgView;
     }
 
+    private Creature chosenCreature;
+
+    private static Creature chooseCreature(Creature creature){
+        System.out.println("Wybrano stwora: " + creature.getName());
+        return creature;
+    }
+
+    private static void createCreature(int place, Creature creature, FlowPane pane) {
+        ImageView creatureImg = generateCreatureImage(creature.getSource());
+        pane.getChildren().add(place, creatureImg);
+        pane.getChildren().remove(place+1);
+        System.out.println("Umieszczono stwora: " + creature.getName());
+    }
+
     private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
 
     private Image backgroundImg = new Image(String.valueOf(backgroundUrl));
@@ -49,6 +65,7 @@ public class ElementalClash extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
 
         BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage backgroundImage = new BackgroundImage(backgroundImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
@@ -89,7 +106,7 @@ public class ElementalClash extends Application {
 
         ImageView placeholder = generateCreatureImage("pics/creaturePlaceholder.png");
         ImageView placeholder2 = generateCreatureImage("pics/creaturePlaceholder.png");
-        ImageView fireWolfImg = generateCreatureImage("pics/fireWolf.jpg");
+
 
         AIBattlefield.setHgap(10);
         AIBattlefield.setPrefWrapLength(1366);
@@ -101,13 +118,29 @@ public class ElementalClash extends Application {
         myBattlefield.setAlignment(Pos.CENTER);
         myBattlefield.getChildren().add(placeholder2);
 
+        Button buy1 = new Button();
+        buy1.setText("Kup");
+        buy1.setOnAction((e) -> {
+            if (true) {
+                chosenCreature = chooseCreature(new FireWolf());
+            }
+        }
+        );
+
+        buyButtons.setPrefWrapLength(1366);
+        buyButtons.setAlignment(Pos.CENTER);
+        buyButtons.setHgap(50);
+        buyButtons.getChildren().add(buy1);
+
         Button put1 = new Button();
         put1.setText("Umieść");
         put1.setOnAction((e) -> {
-            if (true) {
-                myBattlefield.getChildren().remove(placeholder2);
-                myBattlefield.getChildren().add(fireWolfImg);
-                System.out.println("umieszczono stwora");
+            if (chosenCreature != null) {
+                createCreature(0,chosenCreature,myBattlefield);
+                chosenCreature = null;
+            }
+            else {
+                System.out.println("Nie wybrano stwora!");
             }
         });
         Button put2 = new Button();

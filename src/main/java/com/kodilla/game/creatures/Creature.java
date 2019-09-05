@@ -1,11 +1,12 @@
 package com.kodilla.game.creatures;
 
 public interface Creature {
-    int placement = 0;
     int health = 0;
     int power = 0;
+    String source = null;
+    String name = null;
 
-    void putCreature(int placement);
-    void removeCreature(int placement);
     void attack(int power);
+    String getSource();
+    String getName();
 }
