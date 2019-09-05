@@ -10,11 +10,26 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 public class ElementalClash extends Application {
 
-    private Image backgroundImg = new Image("file:D:\\kodilla\\mariusz-hajdyla-kodilla-game\\src\\main\\resources\\pics\\background.jpg");
-    private Image lavaGround = new Image("file:D:\\kodilla\\mariusz-hajdyla-kodilla-game\\src\\main\\resources\\pics\\lavaGround.jpg");
-    private FlowPane objects = new FlowPane(Orientation.HORIZONTAL);
+    private static ImageView generateBuildingImage(String source){
+        URL url = ElementalClash.class.getClassLoader().getResource(source);
+        Image image = new Image(String.valueOf(url));
+        ImageView imgView = new ImageView(image);
+        imgView.setFitHeight(200);
+        imgView.setPreserveRatio(true);
+        return imgView;
+    }
+
+    private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
+
+    private Image backgroundImg = new Image(String.valueOf(backgroundUrl));
+    private FlowPane myBuildings = new FlowPane(Orientation.HORIZONTAL);
+    private FlowPane AIBuildings = new FlowPane(Orientation.HORIZONTAL);
+    private FlowPane AIBattlefield = new FlowPane(Orientation.HORIZONTAL);
+    private FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
 
     public static void main(String[] args) {
         launch(args);
@@ -28,18 +43,46 @@ public class ElementalClash extends Application {
         Background background = new Background(backgroundImage);
 
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
-        grid.setHgap(5.5);
-        grid.setVgap(5.5);
+        grid.setAlignment(Pos.TOP_CENTER);
+        grid.setPadding(new Insets(12.0, 12.0, 12.0, 12.0));
+        grid.setHgap(10);
+        grid.setVgap(10);
         grid.setBackground(background);
 
-        ImageView img = new ImageView(lavaGround);
-        objects.getChildren().add(img);
+        ImageView lavaGroundImg = generateBuildingImage("pics/lavaGround.jpg");
+        ImageView fireCaveImg = generateBuildingImage("pics/fireCave.jpg");
+        ImageView fireTreeImg = generateBuildingImage("pics/fireTree2.png");
+        ImageView geyserImg = generateBuildingImage("pics/geyser.jpg");
+        ImageView roughSeaImg = generateBuildingImage("pics/roughSea.jpg");
+        ImageView underwaterCaveImg = generateBuildingImage("pics/underwaterCave.jpg");
+        ImageView underwaterKingdomImg = generateBuildingImage("pics/underwaterKingdom.jpg");
+        ImageView volcanoImg = generateBuildingImage("pics/volcano.jpg");
 
-        grid.add(objects, 0, 0, 3, 1);
+        myBuildings.setHgap(10);
+        myBuildings.setPrefWrapLength(1366);
+        myBuildings.setAlignment(Pos.BOTTOM_CENTER);
+        myBuildings.getChildren().add(lavaGroundImg);
+        myBuildings.getChildren().add(fireTreeImg);
+        myBuildings.getChildren().add(volcanoImg);
+        myBuildings.getChildren().add(fireCaveImg);
 
-        Scene scene = new Scene(grid, 1600, 900, Color.BLACK);
+
+        AIBuildings.setHgap(10);
+        AIBuildings.setPrefWrapLength(1366);
+        AIBuildings.setAlignment(Pos.TOP_CENTER);
+
+        AIBuildings.getChildren().add(roughSeaImg);
+        AIBuildings.getChildren().add(geyserImg);
+        AIBuildings.getChildren().add(underwaterKingdomImg);
+        AIBuildings.getChildren().add(underwaterCaveImg);
+
+        grid.add(AIBuildings, 0,0,1,1);
+        grid.add(AIBattlefield, 0,1,1,1);
+        grid.add(myBattlefield,0,2,1,1);
+        grid.add(myBuildings, 0, 3, 1, 1);
+
+
+        Scene scene = new Scene(grid, 1366, 768, Color.BLACK);
 
         primaryStage.setTitle("ElementalClash");
         primaryStage.setScene(scene);
