@@ -105,27 +105,27 @@ public class ElementalClash extends Application {
         AIBuildings.getChildren().add(underwaterKingdomImg);
         AIBuildings.getChildren().add(underwaterCaveImg);
 
-        ImageView placeholder = generateCreatureImage("pics/creaturePlaceholder.png");
-        ImageView placeholder2 = generateCreatureImage("pics/creaturePlaceholder.png");
-
-
         AIBattlefield.setHgap(10);
         AIBattlefield.setPrefWrapLength(1366);
         AIBattlefield.setAlignment(Pos.CENTER);
-        AIBattlefield.getChildren().add(placeholder);
+        for(int i = 0; i < 6; i++) {
+            AIBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
+        }
 
         myBattlefield.setHgap(10);
         myBattlefield.setPrefWrapLength(1366);
         myBattlefield.setAlignment(Pos.CENTER);
-        myBattlefield.getChildren().add(placeholder2);
-
-        //TODO more placeholders
+        for(int i = 0; i < 6; i++) {
+            myBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
+        }
 
         OccupationChecker playerChecker = new OccupationChecker();
         OccupationChecker AIChecker = new OccupationChecker();
 
         Button buy1 = new Button();
-        buy1.setText("Kup");
+        buy1.setPrefWidth(180.0);
+        buy1.setText("Kup: (5/3)\nKoszt: 3 many");
+        //buy1.setAlignment(Pos.BASELINE_CENTER);
         buy1.setOnAction((e) -> {
             //TODO: sprawdzanie, czy można kupić stwora w if().
             if (true) {
@@ -140,6 +140,7 @@ public class ElementalClash extends Application {
         buyButtons.getChildren().add(buy1);
 
         Button put1 = new Button();
+        put1.setPrefWidth(110.0);
         put1.setText("Umieść");
         put1.setOnAction((e) -> {
             if(!playerChecker.isOccupied(0)) {
@@ -157,6 +158,7 @@ public class ElementalClash extends Application {
 
 
         Button put2 = new Button();
+        put2.setPrefWidth(110.0);
         put2.setText("Umieść");
         put2.setOnAction((e) -> {
             if(!playerChecker.isOccupied(1)) {
@@ -173,6 +175,7 @@ public class ElementalClash extends Application {
         });
 
         Button put3 = new Button();
+        put3.setPrefWidth(110.0);
         put3.setText("Umieść");
         put3.setOnAction((e) -> {
             if(!playerChecker.isOccupied(2)) {
@@ -189,6 +192,7 @@ public class ElementalClash extends Application {
         });
 
         Button put4 = new Button();
+        put4.setPrefWidth(110.0);
         put4.setText("Umieść");
         put4.setOnAction((e) -> {
             if(!playerChecker.isOccupied(3)) {
@@ -205,6 +209,7 @@ public class ElementalClash extends Application {
         });
 
         Button put5 = new Button();
+        put5.setPrefWidth(110.0);
         put5.setText("Umieść");
         put5.setOnAction((e) -> {
             if(!playerChecker.isOccupied(4)) {
@@ -221,6 +226,7 @@ public class ElementalClash extends Application {
         });
 
         Button put6 = new Button();
+        put6.setPrefWidth(110.0);
         put6.setText("Umieść");
         put6.setOnAction((e) -> {
             if(!playerChecker.isOccupied(5)) {
@@ -238,7 +244,7 @@ public class ElementalClash extends Application {
 
         putButtons.setPrefWrapLength(1366);
         putButtons.setAlignment(Pos.CENTER);
-        putButtons.setHgap(50);
+        putButtons.setHgap(10);
         putButtons.getChildren().add(put1);
         putButtons.getChildren().add(put2);
         putButtons.getChildren().add(put3);
