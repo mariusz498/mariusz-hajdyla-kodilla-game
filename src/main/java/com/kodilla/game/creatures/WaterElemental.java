@@ -1,10 +1,10 @@
 package com.kodilla.game.creatures;
 
-public class FireWolf implements Creature {
-    private int currentHealth = 4;
-    private int power = 7;
-    private String name = "Ognisty wilk";
-    private String source = "pics/fireWolf.jpg";
+public class WaterElemental implements Creature {
+    private int currentHealth = 8;
+    private int power = 3;
+    private String name = "Żywiołak wody";
+    private String source = "pics/waterElemental.jpg";
 
     public String getSource() {
         return source;
@@ -27,5 +27,6 @@ public class FireWolf implements Creature {
     }
 
     public void attack() {
+
     }
 }

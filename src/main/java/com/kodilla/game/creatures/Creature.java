@@ -6,7 +6,7 @@ public interface Creature {
     String source = null;
     String name = null;
 
-    void attack(int power);
+    void attack();
     String getSource();
     String getName();
 }
