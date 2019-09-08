@@ -1,6 +1,6 @@
 package com.kodilla.game;
-import com.kodilla.game.creatures.Creature;
-import com.kodilla.game.creatures.FireWolf;
+import com.kodilla.game.creatures.*;
+import com.kodilla.game.engine.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -42,10 +42,12 @@ public class ElementalClash extends Application {
         return creature;
     }
 
-    private static void createCreature(int place, Creature creature, FlowPane pane) {
+    private static void createCreature(int place, Creature creature, FlowPane pane, OccupationChecker checker) {
         ImageView creatureImg = generateCreatureImage(creature.getSource());
         pane.getChildren().add(place, creatureImg);
         pane.getChildren().remove(place+1);
+        checker.occupy(place);
+
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
 
@@ -65,7 +67,6 @@ public class ElementalClash extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
 
         BackgroundSize backgroundSize = new BackgroundSize(1.0, 1.0, true, true, false, false);
         BackgroundImage backgroundImage = new BackgroundImage(backgroundImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
@@ -118,9 +119,15 @@ public class ElementalClash extends Application {
         myBattlefield.setAlignment(Pos.CENTER);
         myBattlefield.getChildren().add(placeholder2);
 
+        //TODO more placeholders
+
+        OccupationChecker playerChecker = new OccupationChecker();
+        OccupationChecker AIChecker = new OccupationChecker();
+
         Button buy1 = new Button();
         buy1.setText("Kup");
         buy1.setOnAction((e) -> {
+            //TODO: sprawdzanie, czy można kupić stwora w if().
             if (true) {
                 chosenCreature = chooseCreature(new FireWolf());
             }
@@ -135,47 +142,97 @@ public class ElementalClash extends Application {
         Button put1 = new Button();
         put1.setText("Umieść");
         put1.setOnAction((e) -> {
-            if (chosenCreature != null) {
-                createCreature(0,chosenCreature,myBattlefield);
-                chosenCreature = null;
+            if(!playerChecker.isOccupied(0)) {
+                if (chosenCreature != null) {
+                    createCreature(0, chosenCreature, myBattlefield, playerChecker);
+                    chosenCreature = null;
+                } else {
+                    System.out.println("Nie wybrano stwora!");
+                }
             }
-            else {
-                System.out.println("Nie wybrano stwora!");
+            else{
+                System.out.println("Miejsce zajęte!");
             }
         });
+
+
         Button put2 = new Button();
         put2.setText("Umieść");
         put2.setOnAction((e) -> {
-            if (true) {
-                System.out.println("umieszczono stwora");
+            if(!playerChecker.isOccupied(1)) {
+                if (chosenCreature != null) {
+                    createCreature(1, chosenCreature, myBattlefield, playerChecker);
+                    chosenCreature = null;
+                } else {
+                    System.out.println("Nie wybrano stwora!");
+                }
+            }
+            else{
+                System.out.println("Miejsce zajęte!");
             }
         });
+
         Button put3 = new Button();
         put3.setText("Umieść");
         put3.setOnAction((e) -> {
-            if (true) {
-                System.out.println("umieszczono stwora");
+            if(!playerChecker.isOccupied(2)) {
+                if (chosenCreature != null) {
+                    createCreature(2, chosenCreature, myBattlefield, playerChecker);
+                    chosenCreature = null;
+                } else {
+                    System.out.println("Nie wybrano stwora!");
+                }
+            }
+            else{
+                System.out.println("Miejsce zajęte!");
             }
         });
+
         Button put4 = new Button();
         put4.setText("Umieść");
         put4.setOnAction((e) -> {
-            if (true) {
-                System.out.println("umieszczono stwora");
+            if(!playerChecker.isOccupied(3)) {
+                if (chosenCreature != null) {
+                    createCreature(3, chosenCreature, myBattlefield, playerChecker);
+                    chosenCreature = null;
+                } else {
+                    System.out.println("Nie wybrano stwora!");
+                }
+            }
+            else{
+                System.out.println("Miejsce zajęte!");
             }
         });
+
         Button put5 = new Button();
         put5.setText("Umieść");
         put5.setOnAction((e) -> {
-            if (true) {
-                System.out.println("umieszczono stwora");
+            if(!playerChecker.isOccupied(4)) {
+                if (chosenCreature != null) {
+                    createCreature(4, chosenCreature, myBattlefield, playerChecker);
+                    chosenCreature = null;
+                } else {
+                    System.out.println("Nie wybrano stwora!");
+                }
+            }
+            else{
+                System.out.println("Miejsce zajęte!");
             }
         });
+
         Button put6 = new Button();
         put6.setText("Umieść");
         put6.setOnAction((e) -> {
-            if (true) {
-                System.out.println("umieszczono stwora");
+            if(!playerChecker.isOccupied(5)) {
+                if (chosenCreature != null) {
+                    createCreature(5, chosenCreature, myBattlefield, playerChecker);
+                    chosenCreature = null;
+                } else {
+                    System.out.println("Nie wybrano stwora!");
+                }
+            }
+            else{
+                System.out.println("Miejsce zajęte!");
             }
         });
 
