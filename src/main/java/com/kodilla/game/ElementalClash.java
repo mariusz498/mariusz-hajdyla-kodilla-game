@@ -124,7 +124,7 @@ public class ElementalClash extends Application {
 
         Button buy1 = new Button();
         buy1.setPrefWidth(180.0);
-        buy1.setText("Kup: (5/3)\nKoszt: 3 many");
+        buy1.setText("Kup: (7/4)\nKoszt: 3 many");
         buy1.setOnAction((e) -> {
             //TODO: sprawdzanie, czy można kupić stwora w if().
             if (true) {
