@@ -47,6 +47,7 @@ public class ElementalClash extends Application {
         pane.getChildren().add(place, creatureImg);
         pane.getChildren().remove(place+1);
         checker.occupy(place);
+        //TODO uiszczenie kosztu many
 
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
@@ -124,6 +125,17 @@ public class ElementalClash extends Application {
 
         //TODO dodanie pozostałych przycisków kupowania
 
+        Button buy0 = new Button();
+        buy0.setPrefWidth(180.0);
+        buy0.setText("Kup: (1/8)\nKoszt: 2 many");
+        buy0.setOnAction((e) -> {
+                    //TODO: sprawdzanie, czy można kupić stwora w if().
+                    if (true) {
+                        chosenCreature = chooseCreature(new WallOfFire());
+                    }
+                }
+        );
+
         Button buy1 = new Button();
         buy1.setPrefWidth(180.0);
         buy1.setText("Kup: (7/4)\nKoszt: 3 many");
@@ -135,10 +147,35 @@ public class ElementalClash extends Application {
         }
         );
 
+        Button buy2 = new Button();
+        buy2.setPrefWidth(180.0);
+        buy2.setText("Kup: (5/14)\nKoszt: 5 many");
+        buy2.setOnAction((e) -> {
+                    //TODO: sprawdzanie, czy można kupić stwora w if().
+                    if (true) {
+                        chosenCreature = chooseCreature(new Phoenix());
+                    }
+                }
+        );
+
+        Button buy3 = new Button();
+        buy3.setPrefWidth(180.0);
+        buy3.setText("Kup: (15/20)\nKoszt: 10 many");
+        buy3.setOnAction((e) -> {
+                    //TODO: sprawdzanie, czy można kupić stwora w if().
+                    if (true) {
+                        chosenCreature = chooseCreature(new BlackDragon());
+                    }
+                }
+        );
+
         buyButtons.setPrefWrapLength(1366);
         buyButtons.setAlignment(Pos.CENTER);
-        buyButtons.setHgap(50);
+        buyButtons.setHgap(10);
+        buyButtons.getChildren().add(buy0);
         buyButtons.getChildren().add(buy1);
+        buyButtons.getChildren().add(buy2);
+        buyButtons.getChildren().add(buy3);
 
         Button put1 = new Button();
         put1.setPrefWidth(110.0);
