@@ -122,6 +122,8 @@ public class ElementalClash extends Application {
         OccupationChecker playerChecker = new OccupationChecker();
         OccupationChecker AIChecker = new OccupationChecker();
 
+        //TODO dodanie pozostałych przycisków kupowania
+
         Button buy1 = new Button();
         buy1.setPrefWidth(180.0);
         buy1.setText("Kup: (5/3)\nKoszt: 3 many");
