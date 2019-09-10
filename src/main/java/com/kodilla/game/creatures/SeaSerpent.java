@@ -1,8 +1,11 @@
 package com.kodilla.game.creatures;
 
+import com.kodilla.game.engine.Player;
+
 public class SeaSerpent implements Creature {
     private int currentHealth = 17;
     private int power = 18;
+    private int manaCost = 10;
     private String name = "Potwór z głębin";
     private String source = "pics/seaSerpent.jpg";
 
@@ -26,7 +29,10 @@ public class SeaSerpent implements Creature {
         return name;
     }
 
-    public void attack() {
+    public void attack(Player player) {
+    }
 
+    public void payManaCost(Player player){
+        player.setCurrentMana(player.getCurrentMana() - manaCost);
     }
 }

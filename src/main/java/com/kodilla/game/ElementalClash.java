@@ -42,12 +42,12 @@ public class ElementalClash extends Application {
         return creature;
     }
 
-    private static void createCreature(int place, Creature creature, FlowPane pane, OccupationChecker checker) {
+    private static void createCreature(Player player, int place, Creature creature, FlowPane pane, OccupationChecker checker) {
         ImageView creatureImg = generateCreatureImage(creature.getSource());
         pane.getChildren().add(place, creatureImg);
         pane.getChildren().remove(place+1);
         checker.occupy(place);
-        //TODO uiszczenie kosztu many
+        creature.payManaCost(player);
 
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
@@ -123,15 +123,18 @@ public class ElementalClash extends Application {
         OccupationChecker playerChecker = new OccupationChecker();
         OccupationChecker AIChecker = new OccupationChecker();
 
-        //TODO dodanie pozostałych przycisków kupowania
+        Player player = new Player("gracz");
+        Player computer = new Player ("komputer");
 
         Button buy0 = new Button();
         buy0.setPrefWidth(180.0);
         buy0.setText("Kup: (1/8)\nKoszt: 2 many");
         buy0.setOnAction((e) -> {
-                    //TODO: sprawdzanie, czy można kupić stwora w if().
-                    if (true) {
+                    if (player.getCurrentMana()>=2) {
                         chosenCreature = chooseCreature(new WallOfFire());
+                    }
+                    else{
+                        System.out.println("Nie masz wystarczającej ilości many!");
                     }
                 }
         );
@@ -140,9 +143,11 @@ public class ElementalClash extends Application {
         buy1.setPrefWidth(180.0);
         buy1.setText("Kup: (7/4)\nKoszt: 3 many");
         buy1.setOnAction((e) -> {
-            //TODO: sprawdzanie, czy można kupić stwora w if().
-            if (true) {
+            if (player.getCurrentMana()>=3) {
                 chosenCreature = chooseCreature(new FireWolf());
+            }
+            else{
+                System.out.println("Nie masz wystarczającej ilości many!");
             }
         }
         );
@@ -151,9 +156,11 @@ public class ElementalClash extends Application {
         buy2.setPrefWidth(180.0);
         buy2.setText("Kup: (5/14)\nKoszt: 5 many");
         buy2.setOnAction((e) -> {
-                    //TODO: sprawdzanie, czy można kupić stwora w if().
-                    if (true) {
+                    if (player.getCurrentMana()>=5) {
                         chosenCreature = chooseCreature(new Phoenix());
+                    }
+                    else{
+                        System.out.println("Nie masz wystarczającej ilości many!");
                     }
                 }
         );
@@ -162,9 +169,11 @@ public class ElementalClash extends Application {
         buy3.setPrefWidth(180.0);
         buy3.setText("Kup: (15/20)\nKoszt: 10 many");
         buy3.setOnAction((e) -> {
-                    //TODO: sprawdzanie, czy można kupić stwora w if().
-                    if (true) {
+                    if (player.getCurrentMana()>=10) {
                         chosenCreature = chooseCreature(new BlackDragon());
+                    }
+                    else{
+                        System.out.println("Nie masz wystarczającej ilości many!");
                     }
                 }
         );
@@ -183,7 +192,7 @@ public class ElementalClash extends Application {
         put1.setOnAction((e) -> {
             if(!playerChecker.isOccupied(0)) {
                 if (chosenCreature != null) {
-                    createCreature(0, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,0, chosenCreature, myBattlefield, playerChecker);
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -201,7 +210,7 @@ public class ElementalClash extends Application {
         put2.setOnAction((e) -> {
             if(!playerChecker.isOccupied(1)) {
                 if (chosenCreature != null) {
-                    createCreature(1, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,1, chosenCreature, myBattlefield, playerChecker);
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -218,7 +227,7 @@ public class ElementalClash extends Application {
         put3.setOnAction((e) -> {
             if(!playerChecker.isOccupied(2)) {
                 if (chosenCreature != null) {
-                    createCreature(2, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player, 2, chosenCreature, myBattlefield, playerChecker);
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -235,7 +244,7 @@ public class ElementalClash extends Application {
         put4.setOnAction((e) -> {
             if(!playerChecker.isOccupied(3)) {
                 if (chosenCreature != null) {
-                    createCreature(3, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,3, chosenCreature, myBattlefield, playerChecker);
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -252,7 +261,7 @@ public class ElementalClash extends Application {
         put5.setOnAction((e) -> {
             if(!playerChecker.isOccupied(4)) {
                 if (chosenCreature != null) {
-                    createCreature(4, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,4, chosenCreature, myBattlefield, playerChecker);
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -269,7 +278,7 @@ public class ElementalClash extends Application {
         put6.setOnAction((e) -> {
             if(!playerChecker.isOccupied(5)) {
                 if (chosenCreature != null) {
-                    createCreature(5, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,5, chosenCreature, myBattlefield, playerChecker);
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -296,6 +305,7 @@ public class ElementalClash extends Application {
         grid.add(putButtons,0,3,1,1);
         grid.add(myBuildings, 0, 4, 1, 1);
         grid.add(buyButtons,0,5,1,1);
+
 
 
         Scene scene = new Scene(grid, 1366, 768, Color.BLACK);

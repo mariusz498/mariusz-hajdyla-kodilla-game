@@ -1,8 +1,11 @@
 package com.kodilla.game.creatures;
 
+import com.kodilla.game.engine.Player;
+
 public class Merfolk implements Creature {
     private int currentHealth = 8;
     private int power = 3;
+    private int manaCost = 3;
     private String name = "Merfolk";
     private String source = "pics/merfolk.jpg";
 
@@ -26,6 +29,10 @@ public class Merfolk implements Creature {
         return name;
     }
 
-    public void attack(){
+    public void attack(Player player) {
+    }
+
+    public void payManaCost(Player player){
+        player.setCurrentMana(player.getCurrentMana() - manaCost);
     }
 }

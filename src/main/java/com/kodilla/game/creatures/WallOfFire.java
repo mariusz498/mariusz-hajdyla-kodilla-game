@@ -1,8 +1,11 @@
 package com.kodilla.game.creatures;
 
+import com.kodilla.game.engine.Player;
+
 public class WallOfFire implements Creature {
     private int currentHealth = 8;
     private int power = 1;
+    private int manaCost = 2;
     private String name = "Ściana ognia";
     private String source = "pics/wallOfFire.jpg";
 
@@ -26,7 +29,10 @@ public class WallOfFire implements Creature {
         return name;
     }
 
-    public void attack() {
+    public void attack(Player player) {
+    }
 
+    public void payManaCost(Player player){
+        player.setCurrentMana(player.getCurrentMana() - manaCost);
     }
 }
