@@ -2,7 +2,7 @@ package com.kodilla.game.engine;
 
 public class Player {
     private int currentLife = 30;
-    private int currentMana = 5;
+    private int currentMana = 100;
     private String name;
 
     public Player(String name) {

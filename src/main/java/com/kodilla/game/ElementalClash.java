@@ -7,10 +7,12 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -55,12 +57,17 @@ public class ElementalClash extends Application {
     private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
 
     private Image backgroundImg = new Image(String.valueOf(backgroundUrl));
+    private FlowPane computerStats = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane myBuildings = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane AIBuildings = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane AIBattlefield = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane putButtons = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane buyButtons = new FlowPane(Orientation.HORIZONTAL);
+
+    private Label computerLbl = new Label();
+    private Label computerLifeLbl = new Label();
+    private Label computerManaLbl = new Label();
 
     public static void main(String[] args) {
         launch(args);
@@ -90,7 +97,7 @@ public class ElementalClash extends Application {
         ImageView volcanoImg = generateBuildingImage("pics/volcano.jpg");
 
         myBuildings.setHgap(10);
-        myBuildings.setPrefWrapLength(1366);
+        myBuildings.setPrefWrapLength(900);
         myBuildings.setAlignment(Pos.BOTTOM_CENTER);
         myBuildings.getChildren().add(lavaGroundImg);
         myBuildings.getChildren().add(fireTreeImg);
@@ -99,7 +106,7 @@ public class ElementalClash extends Application {
 
 
         AIBuildings.setHgap(10);
-        AIBuildings.setPrefWrapLength(1366);
+        AIBuildings.setPrefWrapLength(900);
         AIBuildings.setAlignment(Pos.TOP_CENTER);
         AIBuildings.getChildren().add(roughSeaImg);
         AIBuildings.getChildren().add(geyserImg);
@@ -107,14 +114,14 @@ public class ElementalClash extends Application {
         AIBuildings.getChildren().add(underwaterCaveImg);
 
         AIBattlefield.setHgap(10);
-        AIBattlefield.setPrefWrapLength(1366);
+        AIBattlefield.setPrefWrapLength(900);
         AIBattlefield.setAlignment(Pos.CENTER);
         for(int i = 0; i < 6; i++) {
             AIBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
         }
 
         myBattlefield.setHgap(10);
-        myBattlefield.setPrefWrapLength(1366);
+        myBattlefield.setPrefWrapLength(900);
         myBattlefield.setAlignment(Pos.CENTER);
         for(int i = 0; i < 6; i++) {
             myBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
@@ -125,6 +132,25 @@ public class ElementalClash extends Application {
 
         Player player = new Player("gracz");
         Player computer = new Player ("komputer");
+
+        computerLbl.setText("Komputer");
+        computerLbl.setFont(new Font("Arial", 24));
+        computerLbl.setTextFill(Color.web("#FFF"));
+
+        computerLifeLbl.setText("Życie: " + computer.getCurrentLife());
+        computerLifeLbl.setFont(new Font("Arial", 24));
+        computerLifeLbl.setTextFill(Color.GREEN);
+
+        computerManaLbl.setText("Mana: " + computer.getCurrentMana());
+        computerManaLbl.setFont(new Font("Arial", 24));
+        computerManaLbl.setTextFill(Color.BLUE);
+
+        computerStats.setPrefWrapLength(100);
+        computerStats.setAlignment(Pos.CENTER);
+        computerStats.setHgap(10);
+        computerStats.getChildren().add(computerLbl);
+        computerStats.getChildren().add(computerLifeLbl);
+        computerStats.getChildren().add(computerManaLbl);
 
         Button buy0 = new Button();
         buy0.setPrefWidth(180.0);
@@ -178,7 +204,7 @@ public class ElementalClash extends Application {
                 }
         );
 
-        buyButtons.setPrefWrapLength(1366);
+        buyButtons.setPrefWrapLength(900);
         buyButtons.setAlignment(Pos.CENTER);
         buyButtons.setHgap(10);
         buyButtons.getChildren().add(buy0);
@@ -289,7 +315,7 @@ public class ElementalClash extends Application {
             }
         });
 
-        putButtons.setPrefWrapLength(1366);
+        putButtons.setPrefWrapLength(900);
         putButtons.setAlignment(Pos.CENTER);
         putButtons.setHgap(10);
         putButtons.getChildren().add(put1);
@@ -299,20 +325,20 @@ public class ElementalClash extends Application {
         putButtons.getChildren().add(put5);
         putButtons.getChildren().add(put6);
 
-        grid.add(AIBuildings, 0,0,1,1);
-        grid.add(AIBattlefield, 0,1,1,1);
-        grid.add(myBattlefield,0,2,1,1);
-        grid.add(putButtons,0,3,1,1);
-        grid.add(myBuildings, 0, 4, 1, 1);
-        grid.add(buyButtons,0,5,1,1);
-
-
+        grid.add(computerStats,0,0,1,1);
+        grid.add(AIBuildings, 1,0,1,1);
+        grid.add(AIBattlefield, 1,1,1,1);
+        grid.add(myBattlefield,1,2,1,1);
+        grid.add(putButtons,1,3,1,1);
+        grid.add(myBuildings, 1, 4, 1, 1);
+        grid.add(buyButtons,1,5,1,1);
 
         Scene scene = new Scene(grid, 1366, 768, Color.BLACK);
 
         primaryStage.setTitle("ElementalClash");
         primaryStage.setScene(scene);
         primaryStage.show();
+
 
     }
 }
