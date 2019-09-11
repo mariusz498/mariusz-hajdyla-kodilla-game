@@ -257,6 +257,7 @@ public class ElementalClash extends Application {
             if(!playerChecker.isOccupied(0)) {
                 if (chosenCreature != null) {
                     createCreature(player,0, chosenCreature, myBattlefield, playerChecker);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -275,6 +276,7 @@ public class ElementalClash extends Application {
             if(!playerChecker.isOccupied(1)) {
                 if (chosenCreature != null) {
                     createCreature(player,1, chosenCreature, myBattlefield, playerChecker);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -292,6 +294,7 @@ public class ElementalClash extends Application {
             if(!playerChecker.isOccupied(2)) {
                 if (chosenCreature != null) {
                     createCreature(player, 2, chosenCreature, myBattlefield, playerChecker);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -309,6 +312,7 @@ public class ElementalClash extends Application {
             if(!playerChecker.isOccupied(3)) {
                 if (chosenCreature != null) {
                     createCreature(player,3, chosenCreature, myBattlefield, playerChecker);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -326,6 +330,7 @@ public class ElementalClash extends Application {
             if(!playerChecker.isOccupied(4)) {
                 if (chosenCreature != null) {
                     createCreature(player,4, chosenCreature, myBattlefield, playerChecker);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
@@ -343,6 +348,7 @@ public class ElementalClash extends Application {
             if(!playerChecker.isOccupied(5)) {
                 if (chosenCreature != null) {
                     createCreature(player,5, chosenCreature, myBattlefield, playerChecker);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
                     System.out.println("Nie wybrano stwora!");
