@@ -34,7 +34,7 @@ public class Player {
 
     public void addCreature(int place, Creature creature){
         creaturesArray[place] = creature;
-        System.out.println("Dodano stwora: " + creature.getName() + "na miejscu " + place+1);
+        System.out.println("Dodano stwora: " + creature.getName() + " na miejscu " + (place+1));
     }
 
     public void removeCreature(int place){
