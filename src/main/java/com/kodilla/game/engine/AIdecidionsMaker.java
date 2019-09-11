@@ -14,11 +14,11 @@ public class AIdecidionsMaker {
 
     private static Creature creaturePicker(Player player){
         Random random = new Random();
-        int i =0;
+        int i = 0;
         do {
         i = random.nextInt(4);
         }
-        while(player.getCurrentMana() <= availableCreatures[i].getManaCost());
+        while(player.getCurrentMana() < availableCreatures[i].getManaCost());
         return availableCreatures[i];
     }
 
