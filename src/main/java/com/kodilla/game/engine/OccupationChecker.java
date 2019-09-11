@@ -18,4 +18,6 @@ public class OccupationChecker {
     public void occupy(int place) {
         occupationList.set(place, true);
     }
+
+    public void remove(int place) {occupationList.set(place, false);}
 }
