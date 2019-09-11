@@ -44,7 +44,7 @@ public class ElementalClash extends Application {
         return creature;
     }
 
-    private static void createCreature(Player player, int place, Creature creature, FlowPane pane, OccupationChecker checker) {
+    public static void createCreature(Player player, int place, Creature creature, FlowPane pane, OccupationChecker checker) {
         ImageView creatureImg = generateCreatureImage(creature.getSource());
         pane.getChildren().add(place, creatureImg);
         pane.getChildren().remove(place+1);
@@ -61,7 +61,7 @@ public class ElementalClash extends Application {
         pane.getChildren().remove(place+1);
         checker.remove(place);
         player.removeCreature(place);
-        System.out.println(creature.getName() + " poległ!");
+        System.out.println(creature.getName() + " poległ(-a)!");
     }
 
     private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
@@ -368,6 +368,8 @@ public class ElementalClash extends Application {
         saveMana.setText("Gromadź manę (+2)");
         saveMana.setOnAction((e) -> {
                     player.setCurrentMana(player.getCurrentMana() + 2);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
+                    System.out.println("Mana gracza: " + player.getCurrentMana());
                 }
         );
 

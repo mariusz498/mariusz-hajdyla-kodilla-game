@@ -13,4 +13,5 @@ public interface Creature {
     void payManaCost(Player player);
     String getSource();
     String getName();
+    int getManaCost();
 }

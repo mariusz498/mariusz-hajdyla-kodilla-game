@@ -28,6 +28,7 @@ public class WaterElemental implements Creature {
     public String getName() {
         return name;
     }
+    public int getManaCost(){ return manaCost;}
 
     public void attack(Player player) {
     }

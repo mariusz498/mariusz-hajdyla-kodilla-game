@@ -29,6 +29,8 @@ public class FireWolf implements Creature {
         return name;
     }
 
+    public int getManaCost(){ return manaCost;}
+
     public void attack(Player player) {
     }
 

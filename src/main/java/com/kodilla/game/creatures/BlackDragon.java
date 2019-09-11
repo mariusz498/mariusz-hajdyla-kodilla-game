@@ -29,6 +29,8 @@ public class BlackDragon implements Creature {
         return name;
     }
 
+    public int getManaCost(){ return manaCost;}
+
     public void attack(Player player) {
     }
 
