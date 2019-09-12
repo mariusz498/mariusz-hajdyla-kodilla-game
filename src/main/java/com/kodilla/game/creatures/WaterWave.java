@@ -1,6 +1,10 @@
 package com.kodilla.game.creatures;
 
 import com.kodilla.game.engine.Player;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class WaterWave implements Creature {
     private int currentHealth = 12;
@@ -31,6 +35,15 @@ public class WaterWave implements Creature {
 
     public int getManaCost(){ return manaCost;}
 
+    public Label getLabel(){
+        Label label = new Label();
+        label.setAlignment(Pos.CENTER);
+        label.setFont(new Font("Arial", 20));
+        label.setTextFill(Color.web("#FFF"));
+        label.setText(this.getPower() + "/" + this.getCurrentHealth());
+        label.setPrefWidth(110.0);
+        return label;
+    }
 
     public void payManaCost(Player player){
         player.setCurrentMana(player.getCurrentMana() - manaCost);

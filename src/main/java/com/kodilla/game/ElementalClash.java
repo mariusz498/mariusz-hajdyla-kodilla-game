@@ -23,7 +23,7 @@ public class ElementalClash extends Application {
         URL url = ElementalClash.class.getClassLoader().getResource(source);
         Image image = new Image(String.valueOf(url));
         ImageView imgView = new ImageView(image);
-        imgView.setFitHeight(180);
+        imgView.setFitHeight(170);
         imgView.setPreserveRatio(true);
         return imgView;
     }
@@ -47,13 +47,15 @@ public class ElementalClash extends Application {
     public static OccupationChecker playerChecker = new OccupationChecker();
     public static OccupationChecker AIChecker = new OccupationChecker();
 
-    public static void createCreature(Player player, int place, Creature creature, FlowPane pane, OccupationChecker checker) {
+    public static void createCreature(Player player, int place, Creature creature, FlowPane pane, FlowPane statsPane, OccupationChecker checker) {
         ImageView creatureImg = generateCreatureImage(creature.getSource());
         pane.getChildren().add(place, creatureImg);
         pane.getChildren().remove(place+1);
         checker.occupy(place);
         creature.payManaCost(player);
         player.addCreature(place, creature);
+        statsPane.getChildren().add(place, creature.getLabel());
+        statsPane.getChildren().remove(place+1);
 
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
@@ -73,9 +75,18 @@ public class ElementalClash extends Application {
             if (attacking.checkCreature(i) != null) {
                 if (opponent.checkCreature(i) != null) {
                     opponent.checkCreature(i).setCurrentHealth(opponent.checkCreature(i).getCurrentHealth() - attacking.checkCreature(i).getPower());
-                    //TODO creature stats labels change
+                    AICreaturesStats.getChildren().add(i, opponent.checkCreature(i).getLabel());
+                    AICreaturesStats.getChildren().remove(i+1);
                     if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
                         ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), AIBattlefield, AIChecker);
+                        Label label = new Label();
+                        label.setAlignment(Pos.CENTER);
+                        label.setFont(new Font("Arial", 20));
+                        label.setTextFill(Color.web("#FFF"));
+                        label.setText(" ");
+                        label.setPrefWidth(110.0);
+                        AICreaturesStats.getChildren().add(i, label);
+                        AICreaturesStats.getChildren().remove(i+1);
                     }
                 } else {
                     opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
@@ -88,6 +99,27 @@ public class ElementalClash extends Application {
         }
     }
 
+    private static void processAIAttacks(Player attacking, Player opponent){
+        int i = 0;
+        for (attacking.checkCreature(i); i < 6; i++) {
+            if (attacking.checkCreature(i) != null) {
+                if (opponent.checkCreature(i) != null) {
+                    opponent.checkCreature(i).setCurrentHealth(opponent.checkCreature(i).getCurrentHealth() - attacking.checkCreature(i).getPower());
+                    //TODO creature stats labels change
+                    if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
+                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), myBattlefield, playerChecker);
+                    }
+                } else {
+                    opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
+                    opponent.lifeLbl.setText("Życie: " + opponent.getCurrentLife());
+                }
+            }
+            if (opponent.getCurrentLife() <= 0) {
+                statusLabel.setText("Przegrałeś!");
+            }
+        }
+    }
+
     private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
 
     private Image backgroundImg = new Image(String.valueOf(backgroundUrl));
@@ -95,6 +127,8 @@ public class ElementalClash extends Application {
     private FlowPane playerStats = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane myBuildings = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane AIBuildings = new FlowPane(Orientation.HORIZONTAL);
+    private static FlowPane AICreaturesStats = new FlowPane(Orientation.HORIZONTAL);
+    private static FlowPane myCreaturesStats = new FlowPane(Orientation.HORIZONTAL);
     private static FlowPane AIBattlefield = new FlowPane(Orientation.HORIZONTAL);
     private static FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane putButtons = new FlowPane(Orientation.HORIZONTAL);
@@ -215,7 +249,7 @@ public class ElementalClash extends Application {
         playerStats.getChildren().add(playerManaLbl);
 
         Button buy0 = new Button();
-        buy0.setPrefWidth(180.0);
+        buy0.setPrefWidth(170.0);
         buy0.setText("Kup: (1/8)\nKoszt: 2 many");
         buy0.setOnAction((e) -> {
                     if (player.getCurrentMana()>=2) {
@@ -228,7 +262,7 @@ public class ElementalClash extends Application {
         );
 
         Button buy1 = new Button();
-        buy1.setPrefWidth(180.0);
+        buy1.setPrefWidth(170.0);
         buy1.setText("Kup: (7/4)\nKoszt: 3 many");
         buy1.setOnAction((e) -> {
             if (player.getCurrentMana()>=3) {
@@ -241,7 +275,7 @@ public class ElementalClash extends Application {
         );
 
         Button buy2 = new Button();
-        buy2.setPrefWidth(180.0);
+        buy2.setPrefWidth(170.0);
         buy2.setText("Kup: (5/14)\nKoszt: 5 many");
         buy2.setOnAction((e) -> {
                     if (player.getCurrentMana()>=5) {
@@ -254,7 +288,7 @@ public class ElementalClash extends Application {
         );
 
         Button buy3 = new Button();
-        buy3.setPrefWidth(180.0);
+        buy3.setPrefWidth(170.0);
         buy3.setText("Kup: (15/20)\nKoszt: 10 many");
         buy3.setOnAction((e) -> {
                     if (player.getCurrentMana()>=10) {
@@ -280,7 +314,7 @@ public class ElementalClash extends Application {
         put1.setOnAction((e) -> {
             if(!playerChecker.isOccupied(0)) {
                 if (chosenCreature != null) {
-                    createCreature(player,0, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,0, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
@@ -299,7 +333,7 @@ public class ElementalClash extends Application {
         put2.setOnAction((e) -> {
             if(!playerChecker.isOccupied(1)) {
                 if (chosenCreature != null) {
-                    createCreature(player,1, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,1, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
@@ -317,7 +351,7 @@ public class ElementalClash extends Application {
         put3.setOnAction((e) -> {
             if(!playerChecker.isOccupied(2)) {
                 if (chosenCreature != null) {
-                    createCreature(player, 2, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player, 2, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
@@ -335,7 +369,7 @@ public class ElementalClash extends Application {
         put4.setOnAction((e) -> {
             if(!playerChecker.isOccupied(3)) {
                 if (chosenCreature != null) {
-                    createCreature(player,3, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,3, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
@@ -353,7 +387,7 @@ public class ElementalClash extends Application {
         put5.setOnAction((e) -> {
             if(!playerChecker.isOccupied(4)) {
                 if (chosenCreature != null) {
-                    createCreature(player,4, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,4, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
@@ -371,7 +405,7 @@ public class ElementalClash extends Application {
         put6.setOnAction((e) -> {
             if(!playerChecker.isOccupied(5)) {
                 if (chosenCreature != null) {
-                    createCreature(player,5, chosenCreature, myBattlefield, playerChecker);
+                    createCreature(player,5, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                 } else {
@@ -393,6 +427,25 @@ public class ElementalClash extends Application {
         putButtons.getChildren().add(put5);
         putButtons.getChildren().add(put6);
 
+        AICreaturesStats.setPrefWrapLength(boardWidth);
+        AICreaturesStats.setAlignment(Pos.CENTER);
+        AICreaturesStats.setHgap(10);
+        AICreaturesStats.setPrefHeight(20);
+
+        myCreaturesStats.setPrefWrapLength(boardWidth);
+        myCreaturesStats.setAlignment(Pos.CENTER);
+        myCreaturesStats.setHgap(10);
+        myCreaturesStats.setPrefHeight(20);
+        for(int i = 0; i < 6; i++){
+            Label label = new Label();
+            label.setAlignment(Pos.CENTER);
+            label.setFont(new Font("Arial", 20));
+            label.setTextFill(Color.web("#FFF"));
+            label.setText(" ");
+            label.setPrefWidth(110.0);
+        myCreaturesStats.getChildren().add(label);
+        }
+
         Button saveMana = new Button();
         saveMana.setPrefWidth(160.0);
         saveMana.setText("Gromadź manę (+2)");
@@ -403,18 +456,20 @@ public class ElementalClash extends Application {
                 }
         );
 
-        grid.add(computerStats,0,1,1,1);
-        grid.add(playerStats,0,2,1,1);
-        grid.add(statusLabel, 0, 3, 1, 2);
-        grid.add(saveMana, 0, 5, 1,1);
+        grid.add(computerStats,0,2,1,1);
+        grid.add(playerStats,0,3,1,1);
+        grid.add(statusLabel, 0, 6, 1, 2);
+        grid.add(saveMana, 0, 7, 1,1);
         grid.add(AIBuildings, 1,0,1,1);
-        grid.add(AIBattlefield, 1,1,1,1);
-        grid.add(myBattlefield,1,2,1,1);
-        grid.add(putButtons,1,3,1,1);
-        grid.add(myBuildings, 1, 4, 1, 1);
-        grid.add(buyButtons,1,5,1,1);
+        grid.add(AICreaturesStats, 1, 1, 1, 1);
+        grid.add(AIBattlefield, 1,2,1,1);
+        grid.add(myBattlefield,1,3,1,1);
+        grid.add(myCreaturesStats, 1, 4, 1, 1);
+        grid.add(putButtons,1,5,1,1);
+        grid.add(myBuildings, 1, 6, 1, 1);
+        grid.add(buyButtons,1,7,1,1);
 
-        Scene scene = new Scene(grid, 1366, 768, Color.BLACK);
+        Scene scene = new Scene(grid, 1600, 900, Color.BLACK);
 
         primaryStage.setTitle("ElementalClash");
         primaryStage.setScene(scene);

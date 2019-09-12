@@ -22,7 +22,7 @@ public class AIdecidionsMaker {
         return availableCreatures[i];
     }
 
-    public static void makeDecision(Player player, OccupationChecker checker, FlowPane pane){
+    public static void makeDecision(Player player, OccupationChecker checker, FlowPane pane, FlowPane statsPane){
         Random random = new Random();
         int i = random.nextInt(2);
         switch(i){
@@ -32,7 +32,7 @@ public class AIdecidionsMaker {
                     while(!checker.isOccupied(k)) {
                         int j = random.nextInt(6);
                         while (!checker.isOccupied(j)) {
-                            ElementalClash.createCreature(player, j, AIdecidionsMaker.creaturePicker(player), pane, checker);
+                            ElementalClash.createCreature(player, j, AIdecidionsMaker.creaturePicker(player), pane, statsPane, checker);
                             creatureCreated = true;
                         }
                     }
