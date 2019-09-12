@@ -31,8 +31,6 @@ public class FireWolf implements Creature {
 
     public int getManaCost(){ return manaCost;}
 
-    public void attack(Player player) {
-    }
 
     public void payManaCost(Player player){
         player.setCurrentMana(player.getCurrentMana() - manaCost);

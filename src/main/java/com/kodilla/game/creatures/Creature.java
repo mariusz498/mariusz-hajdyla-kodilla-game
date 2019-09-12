@@ -9,9 +9,12 @@ public interface Creature {
     String source = null;
     String name = null;
 
-    void attack(Player player);
+
     void payManaCost(Player player);
     String getSource();
     String getName();
     int getManaCost();
+    int getPower();
+    void setCurrentHealth(int currentHealth);
+    int getCurrentHealth();
 }

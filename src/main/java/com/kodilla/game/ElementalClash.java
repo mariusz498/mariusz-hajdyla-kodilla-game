@@ -44,6 +44,9 @@ public class ElementalClash extends Application {
         return creature;
     }
 
+    public static OccupationChecker playerChecker = new OccupationChecker();
+    public static OccupationChecker AIChecker = new OccupationChecker();
+
     public static void createCreature(Player player, int place, Creature creature, FlowPane pane, OccupationChecker checker) {
         ImageView creatureImg = generateCreatureImage(creature.getSource());
         pane.getChildren().add(place, creatureImg);
@@ -64,6 +67,27 @@ public class ElementalClash extends Application {
         System.out.println(creature.getName() + " poległ(-a)!");
     }
 
+    private static void processMyAttacks(Player attacking, Player opponent){
+        int i = 0;
+        for (attacking.checkCreature(i); i < 6; i++) {
+            if (attacking.checkCreature(i) != null) {
+                if (opponent.checkCreature(i) != null) {
+                    opponent.checkCreature(i).setCurrentHealth(opponent.checkCreature(i).getCurrentHealth() - attacking.checkCreature(i).getPower());
+                    //TODO creature stats labels change
+                    if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
+                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), AIBattlefield, AIChecker);
+                    }
+                } else {
+                    opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
+                    opponent.lifeLbl.setText("Życie: " + opponent.getCurrentLife());
+                }
+            }
+            if (opponent.getCurrentLife() <= 0) {
+                statusLabel.setText("Wygrałeś!");
+            }
+        }
+    }
+
     private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
 
     private Image backgroundImg = new Image(String.valueOf(backgroundUrl));
@@ -71,19 +95,18 @@ public class ElementalClash extends Application {
     private FlowPane playerStats = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane myBuildings = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane AIBuildings = new FlowPane(Orientation.HORIZONTAL);
-    private FlowPane AIBattlefield = new FlowPane(Orientation.HORIZONTAL);
-    private FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
+    private static FlowPane AIBattlefield = new FlowPane(Orientation.HORIZONTAL);
+    private static FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane putButtons = new FlowPane(Orientation.HORIZONTAL);
     private FlowPane buyButtons = new FlowPane(Orientation.HORIZONTAL);
 
     private int boardWidth = 900;
 
     private Label computerLbl = new Label();
-    private Label computerLifeLbl = new Label();
     private Label computerManaLbl = new Label();
+    private static Label statusLabel = new Label();
 
     private Label playerLbl = new Label();
-    private Label playerLifeLbl = new Label();
     private Label playerManaLbl = new Label();
 
     public static void main(String[] args) {
@@ -146,9 +169,6 @@ public class ElementalClash extends Application {
             myBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
         }
 
-        OccupationChecker playerChecker = new OccupationChecker();
-        OccupationChecker AIChecker = new OccupationChecker();
-
         Player player = new Player("gracz");
         Player computer = new Player ("komputer");
 
@@ -156,9 +176,9 @@ public class ElementalClash extends Application {
         computerLbl.setFont(new Font("Arial", 24));
         computerLbl.setTextFill(Color.web("#FFF"));
 
-        computerLifeLbl.setText("Życie: " + computer.getCurrentLife());
-        computerLifeLbl.setFont(new Font("Arial", 24));
-        computerLifeLbl.setTextFill(Color.GREEN);
+        computer.lifeLbl.setText("Życie: " + computer.getCurrentLife());
+        computer.lifeLbl.setFont(new Font("Arial", 24));
+        computer.lifeLbl.setTextFill(Color.GREEN);
 
         computerManaLbl.setText("Mana: " + computer.getCurrentMana());
         computerManaLbl.setFont(new Font("Arial", 24));
@@ -168,26 +188,30 @@ public class ElementalClash extends Application {
         computerStats.setAlignment(Pos.CENTER);
         computerStats.setHgap(10);
         computerStats.getChildren().add(computerLbl);
-        computerStats.getChildren().add(computerLifeLbl);
+        computerStats.getChildren().add(computer.lifeLbl);
         computerStats.getChildren().add(computerManaLbl);
 
         playerLbl.setText("Gracz");
         playerLbl.setFont(new Font("Arial", 24));
         playerLbl.setTextFill(Color.web("#FFF"));
 
-        playerLifeLbl.setText("Życie: " + player.getCurrentLife());
-        playerLifeLbl.setFont(new Font("Arial", 24));
-        playerLifeLbl.setTextFill(Color.GREEN);
+        player.lifeLbl.setText("Życie: " + player.getCurrentLife());
+        player.lifeLbl.setFont(new Font("Arial", 24));
+        player.lifeLbl.setTextFill(Color.GREEN);
 
         playerManaLbl.setText("Mana: " + player.getCurrentMana());
         playerManaLbl.setFont(new Font("Arial", 24));
         playerManaLbl.setTextFill(Color.ORANGERED);
 
+        statusLabel.setText("Twoja Tura");
+        statusLabel.setFont(new Font("Arial", 24));
+        statusLabel.setTextFill(Color.web("#FFF"));
+
         playerStats.setPrefWrapLength(120);
         playerStats.setAlignment(Pos.CENTER);
         playerStats.setHgap(10);
         playerStats.getChildren().add(playerLbl);
-        playerStats.getChildren().add(playerLifeLbl);
+        playerStats.getChildren().add(player.lifeLbl);
         playerStats.getChildren().add(playerManaLbl);
 
         Button buy0 = new Button();
@@ -370,7 +394,7 @@ public class ElementalClash extends Application {
         putButtons.getChildren().add(put6);
 
         Button saveMana = new Button();
-        saveMana.setPrefWidth(130.0);
+        saveMana.setPrefWidth(160.0);
         saveMana.setText("Gromadź manę (+2)");
         saveMana.setOnAction((e) -> {
                     player.setCurrentMana(player.getCurrentMana() + 2);
@@ -381,6 +405,7 @@ public class ElementalClash extends Application {
 
         grid.add(computerStats,0,1,1,1);
         grid.add(playerStats,0,2,1,1);
+        grid.add(statusLabel, 0, 3, 1, 2);
         grid.add(saveMana, 0, 5, 1,1);
         grid.add(AIBuildings, 1,0,1,1);
         grid.add(AIBattlefield, 1,1,1,1);

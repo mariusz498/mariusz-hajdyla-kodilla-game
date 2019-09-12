@@ -1,12 +1,14 @@
 package com.kodilla.game.engine;
 
 import com.kodilla.game.creatures.Creature;
+import javafx.scene.control.Label;
 
 public class Player {
     private int currentLife = 30;
     private int currentMana = 5;
     private String name;
     private Creature creaturesArray[] = new Creature[6];
+    public Label lifeLbl = new Label();
 
     public Player(String name) {
         this.name = name;

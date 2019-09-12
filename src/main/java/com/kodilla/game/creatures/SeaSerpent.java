@@ -28,10 +28,8 @@ public class SeaSerpent implements Creature {
     public String getName() {
         return name;
     }
-    public int getManaCost(){ return manaCost;}
 
-    public void attack(Player player) {
-    }
+    public int getManaCost(){ return manaCost;}
 
     public void payManaCost(Player player){
         player.setCurrentMana(player.getCurrentMana() - manaCost);
