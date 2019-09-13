@@ -1,6 +1,9 @@
 package com.kodilla.game;
 import com.kodilla.game.creatures.*;
 import com.kodilla.game.engine.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -14,10 +17,19 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.net.URL;
 
 public class ElementalClash extends Application {
+
+    private static void sleeper(int millis){
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     private static ImageView generateBuildingImage(String source){
         URL url = ElementalClash.class.getClassLoader().getResource(source);
@@ -77,7 +89,7 @@ public class ElementalClash extends Application {
         statsPane.getChildren().remove(place+1);
     }
 
-    private static void processMyAttacks(Player attacking, Player opponent){
+    private void processMyAttacks(Player attacking, Player opponent) {
         int i = 0;
         for (attacking.checkCreature(i); i < 6; i++) {
             if (attacking.checkCreature(i) != null) {
@@ -92,14 +104,16 @@ public class ElementalClash extends Application {
                     opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
                     opponent.lifeLbl.setText("Życie: " + opponent.getCurrentLife());
                 }
+                System.out.println(attacking.checkCreature(i).getName() + " zaatakował(-a)!");
             }
             if (opponent.getCurrentLife() <= 0) {
                 statusLabel.setText("Wygrałeś!");
             }
+            sleeper(500);
         }
     }
 
-    private static void processAIAttacks(Player attacking, Player opponent){
+    private void processAIAttacks(Player attacking, Player opponent) {
         int i = 0;
         for (attacking.checkCreature(i); i < 6; i++) {
             if (attacking.checkCreature(i) != null) {
@@ -118,6 +132,7 @@ public class ElementalClash extends Application {
             if (opponent.getCurrentLife() <= 0) {
                 statusLabel.setText("Przegrałeś!");
             }
+            sleeper(500);
         }
     }
 
@@ -238,7 +253,7 @@ public class ElementalClash extends Application {
         playerManaLbl.setFont(new Font("Arial", 24));
         playerManaLbl.setTextFill(Color.ORANGERED);
 
-        statusLabel.setText("Twoja Tura");
+        statusLabel.setText("Twoja tura");
         statusLabel.setFont(new Font("Arial", 24));
         statusLabel.setTextFill(Color.web("#FFF"));
 
@@ -255,6 +270,7 @@ public class ElementalClash extends Application {
         buy0.setOnAction((e) -> {
                     if (player.getCurrentMana()>=2) {
                         chosenCreature = chooseCreature(new WallOfFire());
+                        statusLabel.setText("Umieść stwora");
                     }
                     else{
                         System.out.println("Nie masz wystarczającej ilości many!");
@@ -268,6 +284,7 @@ public class ElementalClash extends Application {
         buy1.setOnAction((e) -> {
             if (player.getCurrentMana()>=3) {
                 chosenCreature = chooseCreature(new FireWolf());
+                statusLabel.setText("Umieść stwora");
             }
             else{
                 System.out.println("Nie masz wystarczającej ilości many!");
@@ -281,6 +298,7 @@ public class ElementalClash extends Application {
         buy2.setOnAction((e) -> {
                     if (player.getCurrentMana()>=5) {
                         chosenCreature = chooseCreature(new Phoenix());
+                        statusLabel.setText("Umieść stwora");
                     }
                     else{
                         System.out.println("Nie masz wystarczającej ilości many!");
@@ -294,6 +312,7 @@ public class ElementalClash extends Application {
         buy3.setOnAction((e) -> {
                     if (player.getCurrentMana()>=10) {
                         chosenCreature = chooseCreature(new BlackDragon());
+                        statusLabel.setText("Umieść stwora");
                     }
                     else{
                         System.out.println("Nie masz wystarczającej ilości many!");
@@ -318,6 +337,9 @@ public class ElementalClash extends Application {
                     createCreature(player,0, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
+                    sleeper(1000);
+                    statusLabel.setText("Faza ataku");
+                    processMyAttacks(player, computer);
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -337,6 +359,9 @@ public class ElementalClash extends Application {
                     createCreature(player,1, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
+                    sleeper(1000);
+                    statusLabel.setText("Faza ataku");
+                    processMyAttacks(player, computer);
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -355,6 +380,9 @@ public class ElementalClash extends Application {
                     createCreature(player, 2, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
+                    sleeper(1000);
+                    statusLabel.setText("Faza ataku");
+                    processMyAttacks(player, computer);
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -373,6 +401,9 @@ public class ElementalClash extends Application {
                     createCreature(player,3, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
+                    sleeper(1000);
+                    statusLabel.setText("Faza ataku");
+                    processMyAttacks(player, computer);
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -391,6 +422,10 @@ public class ElementalClash extends Application {
                     createCreature(player,4, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
+                    sleeper(1000);
+                    statusLabel.setText("Faza ataku");
+                    processMyAttacks(player, computer);
+
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -409,6 +444,9 @@ public class ElementalClash extends Application {
                     createCreature(player,5, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
+                    sleeper(1000);
+                    statusLabel.setText("Faza ataku");
+                    processMyAttacks(player, computer);
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -417,6 +455,19 @@ public class ElementalClash extends Application {
                 System.out.println("Miejsce zajęte!");
             }
         });
+
+        Button saveMana = new Button();
+        saveMana.setPrefWidth(160.0);
+        saveMana.setText("Gromadź manę (+2)");
+        saveMana.setOnAction((e) -> {
+            player.setCurrentMana(player.getCurrentMana() + 2);
+            playerManaLbl.setText("Mana: " + player.getCurrentMana());
+            System.out.println("Mana gracza: " + player.getCurrentMana());
+            sleeper(1000);
+            statusLabel.setText("Faza ataku");
+            processMyAttacks(player, computer);
+                }
+        );
 
         putButtons.setPrefWrapLength(boardWidth);
         putButtons.setAlignment(Pos.CENTER);
@@ -446,16 +497,6 @@ public class ElementalClash extends Application {
             label.setPrefWidth(110.0);
         myCreaturesStats.getChildren().add(label);
         }
-
-        Button saveMana = new Button();
-        saveMana.setPrefWidth(160.0);
-        saveMana.setText("Gromadź manę (+2)");
-        saveMana.setOnAction((e) -> {
-                    player.setCurrentMana(player.getCurrentMana() + 2);
-                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
-                    System.out.println("Mana gracza: " + player.getCurrentMana());
-                }
-        );
 
         grid.add(computerStats,0,2,1,1);
         grid.add(playerStats,0,3,1,1);
