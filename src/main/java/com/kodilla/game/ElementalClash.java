@@ -20,9 +20,8 @@ import java.net.URL;
 public class ElementalClash extends Application {
 
     private static void sleeper(int millis){
-        Thread thread = new Thread();
         try {
-            thread.sleep(millis);
+            Thread.sleep(millis);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
@@ -106,6 +105,7 @@ public class ElementalClash extends Application {
                 if (opponent.getCurrentLife() <= 0) {
                     statusLabel.setText("Wygrałeś!");
                 }
+                sleeper(1000);
             }
         }
         statusLabel.setText("Tura komputera");
