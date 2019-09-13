@@ -60,13 +60,21 @@ public class ElementalClash extends Application {
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
 
-    private static void killCreature(Player player, int place, Creature creature, FlowPane pane, OccupationChecker checker) {
+    private static void killCreature(Player player, int place, Creature creature, FlowPane pane, FlowPane statsPane, OccupationChecker checker) {
         ImageView placeholderImg = generateCreatureImage("pics/creaturePlaceholder.png");
         pane.getChildren().add(place, placeholderImg);
         pane.getChildren().remove(place+1);
         checker.remove(place);
         player.removeCreature(place);
         System.out.println(creature.getName() + " poległ(-a)!");
+        Label label = new Label();
+        label.setAlignment(Pos.CENTER);
+        label.setFont(new Font("Arial", 20));
+        label.setTextFill(Color.web("#FFF"));
+        label.setText(" ");
+        label.setPrefWidth(110.0);
+        statsPane.getChildren().add(place, label);
+        statsPane.getChildren().remove(place+1);
     }
 
     private static void processMyAttacks(Player attacking, Player opponent){
@@ -78,15 +86,7 @@ public class ElementalClash extends Application {
                     AICreaturesStats.getChildren().add(i, opponent.checkCreature(i).getLabel());
                     AICreaturesStats.getChildren().remove(i+1);
                     if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
-                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), AIBattlefield, AIChecker);
-                        Label label = new Label();
-                        label.setAlignment(Pos.CENTER);
-                        label.setFont(new Font("Arial", 20));
-                        label.setTextFill(Color.web("#FFF"));
-                        label.setText(" ");
-                        label.setPrefWidth(110.0);
-                        AICreaturesStats.getChildren().add(i, label);
-                        AICreaturesStats.getChildren().remove(i+1);
+                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), AIBattlefield, AICreaturesStats, AIChecker);
                     }
                 } else {
                     opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
@@ -105,9 +105,10 @@ public class ElementalClash extends Application {
             if (attacking.checkCreature(i) != null) {
                 if (opponent.checkCreature(i) != null) {
                     opponent.checkCreature(i).setCurrentHealth(opponent.checkCreature(i).getCurrentHealth() - attacking.checkCreature(i).getPower());
-                    //TODO creature stats labels change
+                    myCreaturesStats.getChildren().add(i, opponent.checkCreature(i).getLabel());
+                    myCreaturesStats.getChildren().remove(i+1);
                     if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
-                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), myBattlefield, playerChecker);
+                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), myBattlefield, myCreaturesStats, playerChecker);
                     }
                 } else {
                     opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
