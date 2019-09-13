@@ -1,10 +1,6 @@
 package com.kodilla.game;
 import com.kodilla.game.creatures.*;
 import com.kodilla.game.engine.*;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -19,11 +15,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ElementalClash extends Application {
 
