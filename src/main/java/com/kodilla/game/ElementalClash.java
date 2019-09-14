@@ -85,7 +85,7 @@ public class ElementalClash extends Application {
         statsPane.getChildren().remove(place+1);
     }
 
-    private void processMyAttacks(Player attacking, Player opponent) {
+    public static void processMyAttacks(Player attacking, Player opponent) {
         statusLabel.setText("Faza ataku");
         int i = 0;
         for (attacking.checkCreature(i); i < 6; i++) {
@@ -331,25 +331,27 @@ public class ElementalClash extends Application {
         put1.setPrefWidth(110.0);
         put1.setText("Umieść");
         put1.setOnAction((e) -> {
-            if(!playerChecker.isOccupied(0)) {
+            if (!playerChecker.isOccupied(0)) {
                 if (chosenCreature != null) {
-                    createCreature(player,0, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
+                    createCreature(player, 0, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                     statusLabel.setText("Faza ataku");
-                    Platform.runLater(() -> {
-                        sleeper(1000);
-                        processMyAttacks(player, computer);
-                    });
-                } else {
-                    System.out.println("Nie wybrano stwora!");
+                    sleeper(1000);
+                  /*  Platform.runLater(() -> {
+                            AttackTask<Void> attackTask = new AttackTask<>(player, computer);
+                            new Thread(attackTask).start();
+                           // });*/
+                    processMyAttacks(player, computer);
                 }
+             else {
+                System.out.println("Nie wybrano stwora!");
             }
+        }
             else{
                 System.out.println("Miejsce zajęte!");
             }
         });
-
 
         Button put2 = new Button();
         put2.setPrefWidth(110.0);
