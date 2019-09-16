@@ -28,8 +28,9 @@ public class AIdecidionsMaker {
         }
         else {
             Random random = new Random();
-            int i = random.nextInt(2);
-            switch (i) {
+            int i = random.nextInt(100);
+            int j = i%2;
+            switch (j) {
                 case 0: {
                     player.setCurrentMana(player.getCurrentMana() + 2);
                     creatureCreated = true;
@@ -38,9 +39,9 @@ public class AIdecidionsMaker {
                 case 1: {
                     for (int k = 0; k < 6; k++) {
                         while (!checker.isOccupied(k) && creatureCreated == false) {
-                            int j = random.nextInt(6);
-                            if (!checker.isOccupied(j)) {
-                                ElementalClash.createCreature(player, j, AIdecidionsMaker.creaturePicker(player), pane, statsPane, checker);
+                            int l = random.nextInt(6);
+                            if (!checker.isOccupied(l)) {
+                                ElementalClash.createCreature(player, l, AIdecidionsMaker.creaturePicker(player), pane, statsPane, checker);
                                 creatureCreated = true;
                                 break;
                             }

@@ -8,8 +8,8 @@ import javafx.scene.text.Font;
 
 
 public class FireWolf implements Creature {
-    private int currentHealth = 4;
-    private int power = 7;
+    private int currentHealth = 5;
+    private int power = 4;
     private int manaCost = 3;
     private String name = "Ognisty wilk";
     private String source = "pics/fireWolf.jpg";
