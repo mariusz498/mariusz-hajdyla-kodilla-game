@@ -55,6 +55,8 @@ public class ElementalClash extends Application {
     public static OccupationChecker playerChecker = new OccupationChecker();
     public static OccupationChecker AIChecker = new OccupationChecker();
 
+    private static boolean endOfGame = false;
+
     public static void createCreature(Player player, int place, Creature creature, FlowPane pane, FlowPane statsPane, OccupationChecker checker) {
         ImageView creatureImg = generateCreatureImage(creature.getSource());
         pane.getChildren().add(place, creatureImg);
@@ -104,11 +106,14 @@ public class ElementalClash extends Application {
                 System.out.println(attacking.checkCreature(i).getName() + " zaatakował(-a)!");
                 if (opponent.getCurrentLife() <= 0) {
                     statusLabel.setText("Wygrałeś!");
+                    endOfGame = true;
+                    break;
                 }
-                sleeper(1000);
             }
         }
-        statusLabel.setText("Tura komputera");
+        if (!endOfGame) {
+            statusLabel.setText("Tura komputera");
+        }
     }
 
     private void processAIAttacks(Player attacking, Player opponent) {
@@ -119,7 +124,7 @@ public class ElementalClash extends Application {
                 if (opponent.checkCreature(i) != null) {
                     opponent.checkCreature(i).setCurrentHealth(opponent.checkCreature(i).getCurrentHealth() - attacking.checkCreature(i).getPower());
                     myCreaturesStats.getChildren().add(i, opponent.checkCreature(i).getLabel());
-                    myCreaturesStats.getChildren().remove(i+1);
+                    myCreaturesStats.getChildren().remove(i + 1);
                     if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
                         ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), myBattlefield, myCreaturesStats, playerChecker);
                     }
@@ -130,10 +135,14 @@ public class ElementalClash extends Application {
             }
             if (opponent.getCurrentLife() <= 0) {
                 statusLabel.setText("Przegrałeś!");
+                endOfGame = true;
+                break;
             }
-            sleeper(500);
         }
+        if (!endOfGame) {
+        statusLabel.setText("Twoja tura");
     }
+}
 
     private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
 
@@ -151,8 +160,8 @@ public class ElementalClash extends Application {
 
     private int boardWidth = 900;
 
-    private Label computerLbl = new Label();
-    private Label computerManaLbl = new Label();
+    public static Label computerLbl = new Label();
+    public static Label computerManaLbl = new Label();
     private static Label statusLabel = new Label();
 
     private Label playerLbl = new Label();
@@ -338,12 +347,15 @@ public class ElementalClash extends Application {
                     chosenCreature = null;
                     statusLabel.setText("Faza ataku");
                     sleeper(1000);
-                  /*  Platform.runLater(() -> {
-                            AttackTask<Void> attackTask = new AttackTask<>(player, computer);
+                           /* AttackTask<Void> attackTask = new AttackTask<>(player, computer);
                             new Thread(attackTask).start();
                            // });*/
                     processMyAttacks(player, computer);
-                }
+                    if(!endOfGame) {
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        processAIAttacks(computer, player);
+                    }
+                    }
              else {
                 System.out.println("Nie wybrano stwora!");
             }
@@ -364,9 +376,11 @@ public class ElementalClash extends Application {
                     chosenCreature = null;
                     statusLabel.setText("Faza ataku");
                     sleeper(1000);
-                    Platform.runLater(() -> {
-                        processMyAttacks(player, computer);
-                    });
+                    processMyAttacks(player, computer);
+                    if(!endOfGame) {
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        processAIAttacks(computer, player);
+                    }
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -386,9 +400,11 @@ public class ElementalClash extends Application {
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     statusLabel.setText("Faza ataku");
                     sleeper(1000);
-                    Platform.runLater(() -> {
-                        processMyAttacks(player, computer);
-                    });
+                    processMyAttacks(player, computer);
+                    if(!endOfGame) {
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        processAIAttacks(computer, player);
+                    }
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -409,9 +425,11 @@ public class ElementalClash extends Application {
                     chosenCreature = null;
                     statusLabel.setText("Faza ataku");
                     sleeper(1000);
-                    Platform.runLater(() -> {
-                        processMyAttacks(player, computer);
-                    });
+                    processMyAttacks(player, computer);
+                    if(!endOfGame) {
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        processAIAttacks(computer, player);
+                    }
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -432,9 +450,11 @@ public class ElementalClash extends Application {
                     chosenCreature = null;
                     statusLabel.setText("Faza ataku");
                     sleeper(1000);
-                    Platform.runLater(() -> {
-                        processMyAttacks(player, computer);
-                    });
+                    processMyAttacks(player, computer);
+                    if(!endOfGame) {
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        processAIAttacks(computer, player);
+                    }
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -455,9 +475,11 @@ public class ElementalClash extends Application {
                     chosenCreature = null;
                     statusLabel.setText("Faza ataku");
                     sleeper(1000);
-                    Platform.runLater(() -> {
-                        processMyAttacks(player, computer);
-                    });
+                    processMyAttacks(player, computer);
+                    if(!endOfGame) {
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        processAIAttacks(computer, player);
+                    }
                 } else {
                     System.out.println("Nie wybrano stwora!");
                 }
@@ -475,9 +497,11 @@ public class ElementalClash extends Application {
             playerManaLbl.setText("Mana: " + player.getCurrentMana());
             System.out.println("Mana gracza: " + player.getCurrentMana());
             sleeper(1000);
-            Platform.runLater(() -> {
-                processMyAttacks(player, computer);
-            });
+            processMyAttacks(player, computer);
+            if(!endOfGame) {
+                AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                processAIAttacks(computer, player);
+            }
                 }
         );
 
@@ -495,6 +519,15 @@ public class ElementalClash extends Application {
         AICreaturesStats.setAlignment(Pos.CENTER);
         AICreaturesStats.setHgap(10);
         AICreaturesStats.setPrefHeight(20);
+        for(int i = 0; i < 6; i++) {
+            Label label = new Label();
+            label.setAlignment(Pos.CENTER);
+            label.setFont(new Font("Arial", 20));
+            label.setTextFill(Color.web("#FFF"));
+            label.setText(" ");
+            label.setPrefWidth(110.0);
+            AICreaturesStats.getChildren().add(label);
+        }
 
         myCreaturesStats.setPrefWrapLength(boardWidth);
         myCreaturesStats.setAlignment(Pos.CENTER);

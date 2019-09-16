@@ -23,25 +23,36 @@ public class AIdecidionsMaker {
     }
 
     public static void makeDecision(Player player, OccupationChecker checker, FlowPane pane, FlowPane statsPane){
-        Random random = new Random();
-        int i = random.nextInt(2);
-        switch(i){
-            case 0: player.setCurrentMana(player.getCurrentMana() + 2);
-            case 1: {
-                for (int k = 0; k < 6; k++){
-                    while(!checker.isOccupied(k)) {
-                        int j = random.nextInt(6);
-                        while (!checker.isOccupied(j)) {
-                            ElementalClash.createCreature(player, j, AIdecidionsMaker.creaturePicker(player), pane, statsPane, checker);
-                            creatureCreated = true;
+        if (player.getCurrentMana() < 2){
+            player.setCurrentMana(player.getCurrentMana() + 2);
+        }
+        else {
+            Random random = new Random();
+            int i = random.nextInt(2);
+            switch (i) {
+                case 0: {
+                    player.setCurrentMana(player.getCurrentMana() + 2);
+                    creatureCreated = true;
+                    break;
+                }
+                case 1: {
+                    for (int k = 0; k < 6; k++) {
+                        while (!checker.isOccupied(k) && creatureCreated == false) {
+                            int j = random.nextInt(6);
+                            if (!checker.isOccupied(j)) {
+                                ElementalClash.createCreature(player, j, AIdecidionsMaker.creaturePicker(player), pane, statsPane, checker);
+                                creatureCreated = true;
+                                break;
+                            }
                         }
                     }
+                    }
                 }
-                if(!creatureCreated) {
-                    player.setCurrentMana(player.getCurrentMana() + 2);
-                }
-                creatureCreated = false;
+            if (!creatureCreated) {
+                player.setCurrentMana(player.getCurrentMana() + 2);
             }
+                creatureCreated = false;
         }
+        ElementalClash.computerManaLbl.setText("Mana: " + player.getCurrentMana());
     }
 }
