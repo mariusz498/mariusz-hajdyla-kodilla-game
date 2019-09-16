@@ -288,7 +288,7 @@ public class ElementalClash extends Application {
 
         Button buy1 = new Button();
         buy1.setPrefWidth(170.0);
-        buy1.setText("Kup: (7/4)\nKoszt: 3 many");
+        buy1.setText("Kup: (4/5)\nKoszt: 3 many");
         buy1.setOnAction((e) -> {
             if (player.getCurrentMana()>=3) {
                 chosenCreature = chooseCreature(new FireWolf());

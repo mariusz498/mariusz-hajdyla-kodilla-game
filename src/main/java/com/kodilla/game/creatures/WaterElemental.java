@@ -7,8 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class WaterElemental implements Creature {
-    private int currentHealth = 8;
-    private int power = 3;
+    private int currentHealth = 9;
+    private int power = 10;
     private int manaCost = 5;
     private String name = "Żywiołak wody";
     private String source = "pics/waterElemental.jpg";
