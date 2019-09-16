@@ -1,10 +1,6 @@
 package com.kodilla.game;
 import com.kodilla.game.creatures.*;
 import com.kodilla.game.engine.*;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -19,18 +15,13 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 import java.net.URL;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ElementalClash extends Application {
 
     private static void sleeper(int millis){
-        Thread thread = new Thread();
         try {
-            thread.sleep(millis);
+            Thread.sleep(millis);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
@@ -94,7 +85,7 @@ public class ElementalClash extends Application {
         statsPane.getChildren().remove(place+1);
     }
 
-    private void processMyAttacks(Player attacking, Player opponent) {
+    public static void processMyAttacks(Player attacking, Player opponent) {
         statusLabel.setText("Faza ataku");
         int i = 0;
         for (attacking.checkCreature(i); i < 6; i++) {
@@ -114,6 +105,7 @@ public class ElementalClash extends Application {
                 if (opponent.getCurrentLife() <= 0) {
                     statusLabel.setText("Wygrałeś!");
                 }
+                sleeper(1000);
             }
         }
         statusLabel.setText("Tura komputera");
@@ -339,25 +331,27 @@ public class ElementalClash extends Application {
         put1.setPrefWidth(110.0);
         put1.setText("Umieść");
         put1.setOnAction((e) -> {
-            if(!playerChecker.isOccupied(0)) {
+            if (!playerChecker.isOccupied(0)) {
                 if (chosenCreature != null) {
-                    createCreature(player,0, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
+                    createCreature(player, 0, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
                     playerManaLbl.setText("Mana: " + player.getCurrentMana());
                     chosenCreature = null;
                     statusLabel.setText("Faza ataku");
-                    Platform.runLater(() -> {
-                        sleeper(1000);
-                        processMyAttacks(player, computer);
-                    });
-                } else {
-                    System.out.println("Nie wybrano stwora!");
+                    sleeper(1000);
+                  /*  Platform.runLater(() -> {
+                            AttackTask<Void> attackTask = new AttackTask<>(player, computer);
+                            new Thread(attackTask).start();
+                           // });*/
+                    processMyAttacks(player, computer);
                 }
+             else {
+                System.out.println("Nie wybrano stwora!");
             }
+        }
             else{
                 System.out.println("Miejsce zajęte!");
             }
         });
-
 
         Button put2 = new Button();
         put2.setPrefWidth(110.0);
