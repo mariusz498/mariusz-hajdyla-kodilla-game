@@ -2,7 +2,6 @@ package com.kodilla.game;
 import com.kodilla.game.creatures.*;
 import com.kodilla.game.engine.*;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -348,8 +347,8 @@ public class ElementalClash extends Application {
                     statusLabel.setText("Faza ataku");
                     sleeper(1000);
                            /* AttackTask<Void> attackTask = new AttackTask<>(player, computer);
-                            new Thread(attackTask).start();
-                           // });*/
+                           new Thread(attackTask).start();
+                });*/
                     processMyAttacks(player, computer);
                     if(!endOfGame) {
                         AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
