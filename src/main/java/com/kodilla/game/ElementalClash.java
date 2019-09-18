@@ -54,6 +54,7 @@ public class ElementalClash extends Application {
 
     public static OccupationChecker playerChecker = new OccupationChecker();
     public static OccupationChecker AIChecker = new OccupationChecker();
+    public static Button saveMana = new Button();
 
     private static boolean endOfGame = false;
 
@@ -67,6 +68,16 @@ public class ElementalClash extends Application {
         player.checkCreature(place).setCurrentHealth(player.checkCreature(place).getStartingHealth());
         statsPane.getChildren().add(place, creature.getLabel());
         statsPane.getChildren().remove(place+1);
+        for(int i = 0; i < 6; i ++)
+        {
+            putButtons.getChildren().get(i).setVisible(false);
+        }
+        for(int i = 0; i < 4; i ++)
+        {
+            buyButtons.getChildren().get(i).setVisible(false);
+        }
+        saveMana.setVisible(false);
+
 
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
@@ -91,6 +102,16 @@ public class ElementalClash extends Application {
     public static void processMyAttacks(Player attacking, Player opponent) {
         statusLabel.setText("Faza ataku");
         int i = 0;
+        for(i = 0; i < 4; i ++)
+        {
+            buyButtons.getChildren().get(i).setVisible(false);
+        }
+        for(i = 0; i < 6; i ++)
+        {
+            putButtons.getChildren().get(i).setVisible(false);
+        }
+        saveMana.setVisible(false);
+        i = 0;
         for (attacking.checkCreature(i); i < 6; i++) {
             if (attacking.checkCreature(i) != null) {
                 if (opponent.checkCreature(i) != null) {
@@ -142,6 +163,11 @@ public class ElementalClash extends Application {
         }
         if (!endOfGame) {
         statusLabel.setText("Twoja tura");
+            for(i = 0; i < 4; i ++)
+            {
+                buyButtons.getChildren().get(i).setVisible(true);
+            }
+            saveMana.setVisible(true);
     }
 }
 
@@ -156,8 +182,8 @@ public class ElementalClash extends Application {
     private static FlowPane myCreaturesStats = new FlowPane(Orientation.HORIZONTAL);
     private static FlowPane AIBattlefield = new FlowPane(Orientation.HORIZONTAL);
     private static FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
-    private FlowPane putButtons = new FlowPane(Orientation.HORIZONTAL);
-    private FlowPane buyButtons = new FlowPane(Orientation.HORIZONTAL);
+    private static FlowPane putButtons = new FlowPane(Orientation.HORIZONTAL);
+    private static FlowPane buyButtons = new FlowPane(Orientation.HORIZONTAL);
 
     private int boardWidth = 900;
 
@@ -264,6 +290,8 @@ public class ElementalClash extends Application {
 
         statusLabel.setText("Twoja tura");
         statusLabel.setFont(new Font("Arial", 24));
+        statusLabel.setMaxWidth(160);
+        statusLabel.setWrapText(true);
         statusLabel.setTextFill(Color.web("#FFF"));
         statusLabel.setTextAlignment(TextAlignment.CENTER);
 
@@ -281,9 +309,13 @@ public class ElementalClash extends Application {
                     if (player.getCurrentMana()>=2) {
                         chosenCreature = chooseCreature(new WallOfFire());
                         statusLabel.setText("Umieść stwora");
+                        for(int i = 0; i < 6; i ++)
+                        {
+                            putButtons.getChildren().get(i).setVisible(true);
+                        }
                     }
                     else{
-                        System.out.println("Nie masz wystarczającej ilości many!");
+                        statusLabel.setText("Nie masz wystarczającej ilości many!");
                     }
                 }
         );
@@ -295,9 +327,13 @@ public class ElementalClash extends Application {
             if (player.getCurrentMana()>=3) {
                 chosenCreature = chooseCreature(new FireWolf());
                 statusLabel.setText("Umieść stwora");
+                for(int i = 0; i < 6; i ++)
+                {
+                    putButtons.getChildren().get(i).setVisible(true);
+                }
             }
             else{
-                System.out.println("Nie masz wystarczającej ilości many!");
+                statusLabel.setText("Nie masz wystarczającej ilości many!");
             }
         }
         );
@@ -309,9 +345,13 @@ public class ElementalClash extends Application {
                     if (player.getCurrentMana()>=5) {
                         chosenCreature = chooseCreature(new Phoenix());
                         statusLabel.setText("Umieść stwora");
+                        for(int i = 0; i < 6; i ++)
+                        {
+                            putButtons.getChildren().get(i).setVisible(true);
+                        }
                     }
                     else{
-                        System.out.println("Nie masz wystarczającej ilości many!");
+                        statusLabel.setText("Nie masz wystarczającej ilości many!");
                     }
                 }
         );
@@ -323,9 +363,13 @@ public class ElementalClash extends Application {
                     if (player.getCurrentMana()>=10) {
                         chosenCreature = chooseCreature(new BlackDragon());
                         statusLabel.setText("Umieść stwora");
+                        for(int i = 0; i < 6; i ++)
+                        {
+                            putButtons.getChildren().get(i).setVisible(true);
+                        }
                     }
                     else{
-                        System.out.println("Nie masz wystarczającej ilości many!");
+                        statusLabel.setText("Nie masz wystarczającej ilości many!");
                     }
                 }
         );
@@ -339,6 +383,7 @@ public class ElementalClash extends Application {
         buyButtons.getChildren().add(buy3);
 
         Button put1 = new Button();
+        put1.setVisible(false);
         put1.setPrefWidth(110.0);
         put1.setText("Umieść");
         put1.setOnAction((e) -> {
@@ -368,6 +413,7 @@ public class ElementalClash extends Application {
         });
 
         Button put2 = new Button();
+        put2.setVisible(false);
         put2.setPrefWidth(110.0);
         put2.setText("Umieść");
         put2.setOnAction((e) -> {
@@ -393,6 +439,7 @@ public class ElementalClash extends Application {
         });
 
         Button put3 = new Button();
+        put3.setVisible(false);
         put3.setPrefWidth(110.0);
         put3.setText("Umieść");
         put3.setOnAction((e) -> {
@@ -417,6 +464,7 @@ public class ElementalClash extends Application {
         });
 
         Button put4 = new Button();
+        put4.setVisible(false);
         put4.setPrefWidth(110.0);
         put4.setText("Umieść");
         put4.setOnAction((e) -> {
@@ -442,6 +490,7 @@ public class ElementalClash extends Application {
         });
 
         Button put5 = new Button();
+        put5.setVisible(false);
         put5.setPrefWidth(110.0);
         put5.setText("Umieść");
         put5.setOnAction((e) -> {
@@ -467,6 +516,7 @@ public class ElementalClash extends Application {
         });
 
         Button put6 = new Button();
+        put6.setVisible(false);
         put6.setPrefWidth(110.0);
         put6.setText("Umieść");
         put6.setOnAction((e) -> {
@@ -491,7 +541,6 @@ public class ElementalClash extends Application {
             }
         });
 
-        Button saveMana = new Button();
         saveMana.setPrefWidth(160.0);
         saveMana.setText("Gromadź manę (+2)");
         saveMana.setOnAction((e) -> {
