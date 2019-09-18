@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class WallOfFire implements Creature {
+    private int startingHealth = 8;
     private int currentHealth = 8;
     private int power = 1;
     private int manaCost = 2;
@@ -23,6 +24,10 @@ public class WallOfFire implements Creature {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public int getStartingHealth() {
+        return startingHealth;
     }
 
     public int getPower() {

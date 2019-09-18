@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Merfolk implements Creature {
+    private int startingHealth = 8;
     private int currentHealth = 8;
     private int power = 3;
     private int manaCost = 3;
@@ -23,6 +24,10 @@ public class Merfolk implements Creature {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public int getStartingHealth() {
+        return startingHealth;
     }
 
     public int getPower() {

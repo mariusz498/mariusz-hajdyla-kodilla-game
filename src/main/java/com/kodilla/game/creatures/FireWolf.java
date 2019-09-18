@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 
 
 public class FireWolf implements Creature {
+    private int startingHealth = 5;
     private int currentHealth = 5;
     private int power = 4;
     private int manaCost = 3;
@@ -24,6 +25,10 @@ public class FireWolf implements Creature {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public int getStartingHealth() {
+        return startingHealth;
     }
 
     public int getPower() {

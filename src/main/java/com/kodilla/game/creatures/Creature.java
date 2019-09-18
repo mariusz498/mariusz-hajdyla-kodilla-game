@@ -4,7 +4,8 @@ import com.kodilla.game.engine.Player;
 import javafx.scene.control.Label;
 
 public interface Creature {
-    int health = 0;
+    int startingHealth = 0;
+    int currentHealth = 0;
     int power = 0;
     int manaCost = 0;
     String source = null;
@@ -17,5 +18,6 @@ public interface Creature {
     int getPower();
     void setCurrentHealth(int currentHealth);
     int getCurrentHealth();
+    int getStartingHealth();
     Label getLabel();
 }

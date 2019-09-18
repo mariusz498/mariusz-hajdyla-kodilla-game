@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.net.URL;
 
@@ -63,6 +64,7 @@ public class ElementalClash extends Application {
         checker.occupy(place);
         creature.payManaCost(player);
         player.addCreature(place, creature);
+        player.checkCreature(place).setCurrentHealth(player.checkCreature(place).getStartingHealth());
         statsPane.getChildren().add(place, creature.getLabel());
         statsPane.getChildren().remove(place+1);
 
@@ -263,8 +265,9 @@ public class ElementalClash extends Application {
         statusLabel.setText("Twoja tura");
         statusLabel.setFont(new Font("Arial", 24));
         statusLabel.setTextFill(Color.web("#FFF"));
+        statusLabel.setTextAlignment(TextAlignment.CENTER);
 
-        playerStats.setPrefWrapLength(120);
+        playerStats.setPrefWrapLength(110);
         playerStats.setAlignment(Pos.CENTER);
         playerStats.setHgap(10);
         playerStats.getChildren().add(playerLbl);
@@ -544,7 +547,7 @@ public class ElementalClash extends Application {
 
         grid.add(computerStats,0,2,1,1);
         grid.add(playerStats,0,3,1,1);
-        grid.add(statusLabel, 0, 6, 1, 2);
+        grid.add(statusLabel, 0, 6, 1, 1);
         grid.add(saveMana, 0, 7, 1,1);
         grid.add(AIBuildings, 1,0,1,1);
         grid.add(AICreaturesStats, 1, 1, 1, 1);

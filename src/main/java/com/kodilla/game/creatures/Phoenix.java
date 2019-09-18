@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class Phoenix implements Creature {
+    private int startingHealth = 14;
     private int currentHealth = 14;
     private int power = 5;
     private int manaCost = 5;
@@ -23,6 +24,10 @@ public class Phoenix implements Creature {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public int getStartingHealth() {
+        return startingHealth;
     }
 
     public int getPower() {

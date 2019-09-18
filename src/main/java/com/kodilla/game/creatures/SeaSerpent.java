@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class SeaSerpent implements Creature {
+    private int startingHealth = 17;
     private int currentHealth = 17;
     private int power = 18;
     private int manaCost = 10;
@@ -23,6 +24,10 @@ public class SeaSerpent implements Creature {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public int getStartingHealth() {
+        return startingHealth;
     }
 
     public int getPower() {

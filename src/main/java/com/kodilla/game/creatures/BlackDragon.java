@@ -7,6 +7,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class BlackDragon implements Creature {
+    private int startingHealth = 20;
+
+
+
     private int currentHealth = 20;
     private int power = 15;
     private int manaCost = 10;
@@ -34,6 +38,10 @@ public class BlackDragon implements Creature {
     }
 
     public int getManaCost(){ return manaCost;}
+
+    public int getStartingHealth() {
+        return startingHealth;
+    }
 
     public Label getLabel(){
         Label label = new Label();

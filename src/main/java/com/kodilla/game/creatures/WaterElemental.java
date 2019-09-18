@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class WaterElemental implements Creature {
+    private int startingHealth = 9;
     private int currentHealth = 9;
     private int power = 10;
     private int manaCost = 5;
@@ -23,6 +24,10 @@ public class WaterElemental implements Creature {
 
     public int getCurrentHealth() {
         return currentHealth;
+    }
+
+    public int getStartingHealth() {
+        return startingHealth;
     }
 
     public int getPower() {
