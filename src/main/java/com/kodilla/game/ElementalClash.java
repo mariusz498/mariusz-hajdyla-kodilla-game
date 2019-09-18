@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -223,6 +224,38 @@ public class ElementalClash extends Application {
         ImageView underwaterCaveImg = generateBuildingImage("pics/underwaterCave.jpg");
         ImageView underwaterKingdomImg = generateBuildingImage("pics/underwaterKingdom.jpg");
         ImageView volcanoImg = generateBuildingImage("pics/volcano.jpg");
+
+        Tooltip lavaGroundTip = new Tooltip();
+        lavaGroundTip.setText("Płonące pola\nProdukują:\nŚciana ognia (1/8)");
+        Tooltip.install(lavaGroundImg,lavaGroundTip);
+
+        Tooltip fireCaveTip = new Tooltip();
+        fireCaveTip.setText("Ognista jaskinia\nProdukuje:\nCzarny smok (15/20)");
+        Tooltip.install(fireCaveImg,fireCaveTip);
+
+        Tooltip fireTreeTip = new Tooltip();
+        fireTreeTip.setText("Las ognia\nProdukuje:\nOgnisty wilk (4/5)");
+        Tooltip.install(fireTreeImg,fireTreeTip);
+
+        Tooltip geyserTip = new Tooltip();
+        geyserTip.setText("Gejzer\nProdukuje:\nŻywiołak wody (10/9)");
+        Tooltip.install(geyserImg,geyserTip);
+
+        Tooltip roughSeaTip = new Tooltip();
+        roughSeaTip.setText("Wzburzone morze\nProdukuje:\nFala tsunami (1/12)");
+        Tooltip.install(roughSeaImg,roughSeaTip);
+
+        Tooltip underwaterCaveTip = new Tooltip();
+        underwaterCaveTip.setText("Podwodna jaskinia\nProdukuje:\nPotwór z głębin (17/18)");
+        Tooltip.install(underwaterCaveImg,underwaterCaveTip);
+
+        Tooltip underwaterKingdomTip = new Tooltip();
+        underwaterKingdomTip.setText("Morskie królestwo\nProdukuje:\nMerfolk (3/8)");
+        Tooltip.install(underwaterKingdomImg,underwaterKingdomTip);
+
+        Tooltip volcanoTip = new Tooltip();
+        volcanoTip.setText("Wulkan\nProdukuje:\nFeniks (5/14)");
+        Tooltip.install(volcanoImg,volcanoTip);
 
         myBuildings.setHgap(10);
         myBuildings.setPrefWrapLength(boardWidth);
