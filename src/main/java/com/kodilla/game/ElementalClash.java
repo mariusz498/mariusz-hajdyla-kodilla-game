@@ -56,6 +56,7 @@ public class ElementalClash extends Application {
     public static OccupationChecker playerChecker = new OccupationChecker();
     public static OccupationChecker AIChecker = new OccupationChecker();
     public static Button saveMana = new Button();
+    public static Button newGame = new Button();
 
     private static boolean endOfGame = false;
 
@@ -83,7 +84,7 @@ public class ElementalClash extends Application {
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
 
-    private static void killCreature(Player player, int place, Creature creature, FlowPane pane, FlowPane statsPane, OccupationChecker checker) {
+    public static void killCreature(Player player, int place, Creature creature, FlowPane pane, FlowPane statsPane, OccupationChecker checker) {
         ImageView placeholderImg = generateCreatureImage("pics/creaturePlaceholder.png");
         pane.getChildren().add(place, placeholderImg);
         pane.getChildren().remove(place+1);
@@ -213,8 +214,8 @@ public class ElementalClash extends Application {
         grid.setVgap(10);
         grid.setBackground(background);
 
-        computerStats.setBackground(new Background(new BackgroundFill(new Color(0.66,0.66,0.66,0.8), CornerRadii.EMPTY, Insets.EMPTY)));
-        playerStats.setBackground(new Background(new BackgroundFill(new Color(0.66,0.66,0.66,0.8), CornerRadii.EMPTY, Insets.EMPTY)));
+        computerStats.setBackground(new Background(new BackgroundFill(new Color(0.66,0.66,0.66,0.8), new CornerRadii(10), Insets.EMPTY)));
+        playerStats.setBackground(new Background(new BackgroundFill(new Color(0.66,0.66,0.66,0.8), new CornerRadii(10), Insets.EMPTY)));
 
         ImageView lavaGroundImg = generateBuildingImage("pics/lavaGround.jpg");
         ImageView fireCaveImg = generateBuildingImage("pics/fireCave.jpg");
@@ -589,6 +590,16 @@ public class ElementalClash extends Application {
                 }
         );
 
+        newGame.setPrefWidth(160.0);
+        newGame.setText("Nowa gra");
+        newGame.setOnAction((e) -> {
+            endOfGame = false;
+            chosenCreature = null;
+            NewGameStarter.startNewGame(player, computer, playerManaLbl, computerManaLbl, playerChecker, AIChecker, myBattlefield, AIBattlefield,
+                    myCreaturesStats, AICreaturesStats, saveMana, buyButtons, statusLabel, putButtons);
+                }
+        );
+
         putButtons.setPrefWrapLength(boardWidth);
         putButtons.setAlignment(Pos.CENTER);
         putButtons.setHgap(10);
@@ -627,6 +638,7 @@ public class ElementalClash extends Application {
         myCreaturesStats.getChildren().add(label);
         }
 
+        grid.add(newGame, 0 , 0, 1, 1);
         grid.add(computerStats,0,2,1,1);
         grid.add(playerStats,0,3,1,1);
         grid.add(statusLabel, 0, 6, 1, 1);
