@@ -433,7 +433,7 @@ public class ElementalClash extends Application {
                 });*/
                     processMyAttacks(player, computer);
                     if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
                         processAIAttacks(computer, player);
                     }
                     }
@@ -460,7 +460,7 @@ public class ElementalClash extends Application {
                     sleeper(1000);
                     processMyAttacks(player, computer);
                     if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
                         processAIAttacks(computer, player);
                     }
                 } else {
@@ -485,7 +485,7 @@ public class ElementalClash extends Application {
                     sleeper(1000);
                     processMyAttacks(player, computer);
                     if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
                         processAIAttacks(computer, player);
                     }
                 } else {
@@ -511,7 +511,7 @@ public class ElementalClash extends Application {
                     sleeper(1000);
                     processMyAttacks(player, computer);
                     if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
                         processAIAttacks(computer, player);
                     }
                 } else {
@@ -537,7 +537,7 @@ public class ElementalClash extends Application {
                     sleeper(1000);
                     processMyAttacks(player, computer);
                     if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
                         processAIAttacks(computer, player);
                     }
                 } else {
@@ -563,7 +563,7 @@ public class ElementalClash extends Application {
                     sleeper(1000);
                     processMyAttacks(player, computer);
                     if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
                         processAIAttacks(computer, player);
                     }
                 } else {
@@ -584,7 +584,7 @@ public class ElementalClash extends Application {
             sleeper(1000);
             processMyAttacks(player, computer);
             if(!endOfGame) {
-                AIdecidionsMaker.makeDecision(computer, AIChecker, AIBattlefield, AICreaturesStats);
+                AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
                 processAIAttacks(computer, player);
             }
                 }

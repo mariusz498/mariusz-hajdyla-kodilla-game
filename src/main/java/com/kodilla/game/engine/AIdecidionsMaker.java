@@ -22,14 +22,14 @@ public class AIdecidionsMaker {
         return availableCreatures[i];
     }
 
-    public static void makeDecision(Player player, OccupationChecker checker, FlowPane pane, FlowPane statsPane){
+    public static void makeDecision(Player player, OccupationChecker checker, OccupationChecker opponentChecker, FlowPane pane, FlowPane statsPane){
         if (player.getCurrentMana() < 2){
             player.setCurrentMana(player.getCurrentMana() + 2);
         }
         else {
             Random random = new Random();
             int i = random.nextInt(100);
-            int j = i%2;
+            int j = i%3;
             switch (j) {
                 case 0: {
                     player.setCurrentMana(player.getCurrentMana() + 2);
@@ -47,8 +47,19 @@ public class AIdecidionsMaker {
                             }
                         }
                     }
-                    }
+                    break;
                 }
+                case 2: {
+                    for (int k = 0; k < 6; k++) {
+                        while (!checker.isOccupied(k) && opponentChecker.isOccupied(k)) {
+                                ElementalClash.createCreature(player, k, AIdecidionsMaker.creaturePicker(player), pane, statsPane, checker);
+                                creatureCreated = true;
+                                break;
+                        }
+                    }
+                    break;
+                }
+            }
             if (!creatureCreated) {
                 player.setCurrentMana(player.getCurrentMana() + 2);
             }
