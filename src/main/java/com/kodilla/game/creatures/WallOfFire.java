@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 
 public class WallOfFire implements Creature {
     private int startingHealth = 8;
-    private int currentHealth = 8;
+    private volatile int currentHealth = 8;
     private int power = 1;
     private int manaCost = 2;
     private String name = "Ściana ognia";

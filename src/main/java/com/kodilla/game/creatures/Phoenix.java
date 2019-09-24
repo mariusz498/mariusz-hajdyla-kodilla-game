@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 
 public class Phoenix implements Creature {
     private int startingHealth = 14;
-    private int currentHealth = 14;
+    private volatile int currentHealth = 14;
     private int power = 5;
     private int manaCost = 5;
     private String name = "Feniks";

@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 
 public class Merfolk implements Creature {
     private int startingHealth = 8;
-    private int currentHealth = 8;
+    private volatile int currentHealth = 8;
     private int power = 3;
     private int manaCost = 3;
     private String name = "Merfolk";

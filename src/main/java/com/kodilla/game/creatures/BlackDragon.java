@@ -8,10 +8,7 @@ import javafx.scene.text.Font;
 
 public class BlackDragon implements Creature {
     private int startingHealth = 20;
-
-
-
-    private int currentHealth = 20;
+    private volatile int currentHealth = 20;
     private int power = 15;
     private int manaCost = 10;
     private String name = "Czarny smok";

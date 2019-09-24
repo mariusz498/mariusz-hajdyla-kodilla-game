@@ -9,7 +9,7 @@ import javafx.scene.text.Font;
 
 public class FireWolf implements Creature {
     private int startingHealth = 5;
-    private int currentHealth = 5;
+    private volatile int currentHealth = 5;
     private int power = 4;
     private int manaCost = 3;
     private String name = "Ognisty wilk";

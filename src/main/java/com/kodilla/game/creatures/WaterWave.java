@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 
 public class WaterWave implements Creature {
     private int startingHealth = 12;
-    private int currentHealth = 12;
+    private volatile int currentHealth = 12;
     private int power = 1;
     private int manaCost = 2;
     private String name = "Fala tsunami";

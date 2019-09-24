@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 
 public class SeaSerpent implements Creature {
     private int startingHealth = 17;
-    private int currentHealth = 17;
+    private volatile int currentHealth = 17;
     private int power = 18;
     private int manaCost = 10;
     private String name = "Potwór z głębin";

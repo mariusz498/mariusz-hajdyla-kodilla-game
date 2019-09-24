@@ -1,6 +1,13 @@
 package com.kodilla.game;
-import com.kodilla.game.creatures.*;
-import com.kodilla.game.engine.*;
+import com.kodilla.game.creatures.BlackDragon;
+import com.kodilla.game.creatures.Creature;
+import com.kodilla.game.creatures.FireWolf;
+import com.kodilla.game.creatures.Phoenix;
+import com.kodilla.game.creatures.WallOfFire;
+import com.kodilla.game.engine.OccupationChecker;
+import com.kodilla.game.engine.NewGameStarter;
+import com.kodilla.game.engine.AIdecidionsMaker;
+import com.kodilla.game.engine.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -11,7 +18,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -23,7 +38,8 @@ public class ElementalClash extends Application {
     private static void sleeper(int millis){
         try {
             Thread.sleep(millis);
-        } catch (InterruptedException ex) {
+        }
+        catch (InterruptedException ex) {
             ex.printStackTrace();
         }
     }
@@ -47,6 +63,8 @@ public class ElementalClash extends Application {
     }
 
     private Creature chosenCreature;
+    public static Player player = new Player("gracz");
+    public static Player computer = new Player ("komputer");
 
     private static Creature chooseCreature(Creature creature){
         System.out.println("Wybrano stwora: " + creature.getName());
@@ -54,11 +72,11 @@ public class ElementalClash extends Application {
     }
 
     public static OccupationChecker playerChecker = new OccupationChecker();
-    public static OccupationChecker AIChecker = new OccupationChecker();
+    public static OccupationChecker aiChecker = new OccupationChecker();
     public static Button saveMana = new Button();
     public static Button newGame = new Button();
 
-    private static boolean endOfGame = false;
+    public static boolean endOfGame = false;
 
     public static void createCreature(Player player, int place, Creature creature, FlowPane pane, FlowPane statsPane, OccupationChecker checker) {
         ImageView creatureImg = generateCreatureImage(creature.getSource());
@@ -70,17 +88,13 @@ public class ElementalClash extends Application {
         player.checkCreature(place).setCurrentHealth(player.checkCreature(place).getStartingHealth());
         statsPane.getChildren().add(place, creature.getLabel());
         statsPane.getChildren().remove(place+1);
-        for(int i = 0; i < 6; i ++)
-        {
+        for(int i = 0; i < 6; i ++) {
             putButtons.getChildren().get(i).setVisible(false);
         }
-        for(int i = 0; i < 4; i ++)
-        {
+        for(int i = 0; i < 4; i ++) {
             buyButtons.getChildren().get(i).setVisible(false);
         }
         saveMana.setVisible(false);
-
-
         System.out.println("Umieszczono stwora: " + creature.getName());
     }
 
@@ -103,13 +117,11 @@ public class ElementalClash extends Application {
 
     public static void processMyAttacks(Player attacking, Player opponent) {
         statusLabel.setText("Faza ataku");
-        int i = 0;
-        for(i = 0; i < 4; i ++)
-        {
+        int i;
+        for(i = 0; i < 4; i ++) {
             buyButtons.getChildren().get(i).setVisible(false);
         }
-        for(i = 0; i < 6; i ++)
-        {
+        for(i = 0; i < 6; i ++) {
             putButtons.getChildren().get(i).setVisible(false);
         }
         saveMana.setVisible(false);
@@ -118,12 +130,13 @@ public class ElementalClash extends Application {
             if (attacking.checkCreature(i) != null) {
                 if (opponent.checkCreature(i) != null) {
                     opponent.checkCreature(i).setCurrentHealth(opponent.checkCreature(i).getCurrentHealth() - attacking.checkCreature(i).getPower());
-                    AICreaturesStats.getChildren().add(i, opponent.checkCreature(i).getLabel());
-                    AICreaturesStats.getChildren().remove(i+1);
+                    aiCreaturesStats.getChildren().add(i, opponent.checkCreature(i).getLabel());
+                    aiCreaturesStats.getChildren().remove(i+1);
                     if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
-                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), AIBattlefield, AICreaturesStats, AIChecker);
+                        ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), aiBattlefield, aiCreaturesStats, aiChecker);
                     }
-                } else {
+                }
+                else {
                     opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
                     opponent.lifeLbl.setText("Życie: " + opponent.getCurrentLife());
                 }
@@ -152,10 +165,12 @@ public class ElementalClash extends Application {
                     if (opponent.checkCreature(i).getCurrentHealth() <= 0) {
                         ElementalClash.killCreature(opponent, i, opponent.checkCreature(i), myBattlefield, myCreaturesStats, playerChecker);
                     }
-                } else {
+                }
+                else {
                     opponent.setCurrentLife(opponent.getCurrentLife() - attacking.checkCreature(i).getPower());
                     opponent.lifeLbl.setText("Życie: " + opponent.getCurrentLife());
                 }
+                System.out.println(attacking.checkCreature(i).getName() + " zaatakował(-a)!");
             }
             if (opponent.getCurrentLife() <= 0) {
                 statusLabel.setText("Przegrałeś!");
@@ -164,37 +179,62 @@ public class ElementalClash extends Application {
             }
         }
         if (!endOfGame) {
-        statusLabel.setText("Twoja tura");
-            for(i = 0; i < 4; i ++)
-            {
+            statusLabel.setText("Twoja tura");
+            for(i = 0; i < 4; i ++) {
                 buyButtons.getChildren().get(i).setVisible(true);
             }
             saveMana.setVisible(true);
+        }
     }
-}
 
     private URL backgroundUrl = ElementalClash.class.getClassLoader().getResource("pics/background.jpg");
-
-    private Image backgroundImg = new Image(String.valueOf(backgroundUrl));
-    private FlowPane computerStats = new FlowPane(Orientation.HORIZONTAL);
-    private FlowPane playerStats = new FlowPane(Orientation.HORIZONTAL);
-    private FlowPane myBuildings = new FlowPane(Orientation.HORIZONTAL);
-    private FlowPane AIBuildings = new FlowPane(Orientation.HORIZONTAL);
-    private static FlowPane AICreaturesStats = new FlowPane(Orientation.HORIZONTAL);
-    private static FlowPane myCreaturesStats = new FlowPane(Orientation.HORIZONTAL);
-    private static FlowPane AIBattlefield = new FlowPane(Orientation.HORIZONTAL);
-    private static FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
-    private static FlowPane putButtons = new FlowPane(Orientation.HORIZONTAL);
-    private static FlowPane buyButtons = new FlowPane(Orientation.HORIZONTAL);
+    public Image backgroundImg = new Image(String.valueOf(backgroundUrl));
+    public FlowPane computerStats = new FlowPane(Orientation.HORIZONTAL);
+    public FlowPane playerStats = new FlowPane(Orientation.HORIZONTAL);
+    public FlowPane myBuildings = new FlowPane(Orientation.HORIZONTAL);
+    public FlowPane aiBuildings = new FlowPane(Orientation.HORIZONTAL);
+    public static FlowPane aiCreaturesStats = new FlowPane(Orientation.HORIZONTAL);
+    public static FlowPane myCreaturesStats = new FlowPane(Orientation.HORIZONTAL);
+    public static FlowPane aiBattlefield = new FlowPane(Orientation.HORIZONTAL);
+    public static FlowPane myBattlefield = new FlowPane(Orientation.HORIZONTAL);
+    public static FlowPane putButtons = new FlowPane(Orientation.HORIZONTAL);
+    public static FlowPane buyButtons = new FlowPane(Orientation.HORIZONTAL);
 
     private int boardWidth = 900;
 
     public static Label computerLbl = new Label();
     public static Label computerManaLbl = new Label();
-    private static Label statusLabel = new Label();
+    public static Label statusLabel = new Label();
+    public static Label playerLbl = new Label();
+    public static Label playerManaLbl = new Label();
 
-    private Label playerLbl = new Label();
-    private Label playerManaLbl = new Label();
+    private void generatePutButton(Button button, int place){
+        button.setVisible(false);
+        button.setPrefWidth(110.0);
+        button.setText("Umieść");
+        button.setOnAction((e) -> {
+            if (!playerChecker.isOccupied(place)) {
+                if (chosenCreature != null) {
+                    createCreature(player, place, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
+                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
+                    chosenCreature = null;
+                    statusLabel.setText("Faza ataku");
+                    sleeper(1000);
+                    processMyAttacks(player, computer);
+                    if (!endOfGame) {
+                        AIdecidionsMaker.makeDecision(computer, aiChecker, playerChecker, aiBattlefield, aiCreaturesStats);
+                        processAIAttacks(computer, player);
+                    }
+                }
+                else {
+                    System.out.println("Nie wybrano stwora!");
+                }
+            }
+            else {
+                System.out.println("Miejsce zajęte!");
+            }
+        });
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -266,19 +306,19 @@ public class ElementalClash extends Application {
         myBuildings.getChildren().add(volcanoImg);
         myBuildings.getChildren().add(fireCaveImg);
 
-        AIBuildings.setHgap(10);
-        AIBuildings.setPrefWrapLength(boardWidth);
-        AIBuildings.setAlignment(Pos.TOP_CENTER);
-        AIBuildings.getChildren().add(roughSeaImg);
-        AIBuildings.getChildren().add(geyserImg);
-        AIBuildings.getChildren().add(underwaterKingdomImg);
-        AIBuildings.getChildren().add(underwaterCaveImg);
+        aiBuildings.setHgap(10);
+        aiBuildings.setPrefWrapLength(boardWidth);
+        aiBuildings.setAlignment(Pos.TOP_CENTER);
+        aiBuildings.getChildren().add(roughSeaImg);
+        aiBuildings.getChildren().add(underwaterKingdomImg);
+        aiBuildings.getChildren().add(geyserImg);
+        aiBuildings.getChildren().add(underwaterCaveImg);
 
-        AIBattlefield.setHgap(10);
-        AIBattlefield.setPrefWrapLength(boardWidth);
-        AIBattlefield.setAlignment(Pos.CENTER);
+        aiBattlefield.setHgap(10);
+        aiBattlefield.setPrefWrapLength(boardWidth);
+        aiBattlefield.setAlignment(Pos.CENTER);
         for(int i = 0; i < 6; i++) {
-            AIBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
+            aiBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
         }
 
         myBattlefield.setHgap(10);
@@ -287,9 +327,6 @@ public class ElementalClash extends Application {
         for(int i = 0; i < 6; i++) {
             myBattlefield.getChildren().add(generateCreatureImage("pics/creaturePlaceholder.png"));
         }
-
-        Player player = new Player("gracz");
-        Player computer = new Player ("komputer");
 
         computerLbl.setText("Komputer");
         computerLbl.setFont(new Font("Arial", 24));
@@ -340,73 +377,65 @@ public class ElementalClash extends Application {
         buy0.setPrefWidth(170.0);
         buy0.setText("Kup: (1/8)\nKoszt: 2 many");
         buy0.setOnAction((e) -> {
-                    if (player.getCurrentMana()>=2) {
-                        chosenCreature = chooseCreature(new WallOfFire());
-                        statusLabel.setText("Umieść stwora");
-                        for(int i = 0; i < 6; i ++)
-                        {
-                            putButtons.getChildren().get(i).setVisible(true);
-                        }
-                    }
-                    else{
-                        statusLabel.setText("Nie masz wystarczającej ilości many!");
-                    }
+            if (player.getCurrentMana() >= 2) {
+                chosenCreature = chooseCreature(new WallOfFire());
+                statusLabel.setText("Umieść stwora");
+                for(int i = 0; i < 6; i ++) {
+                    putButtons.getChildren().get(i).setVisible(true);
                 }
-        );
+            }
+            else {
+                statusLabel.setText("Nie masz wystarczającej ilości many!");
+            }
+        });
 
         Button buy1 = new Button();
         buy1.setPrefWidth(170.0);
         buy1.setText("Kup: (4/5)\nKoszt: 3 many");
         buy1.setOnAction((e) -> {
-            if (player.getCurrentMana()>=3) {
+            if (player.getCurrentMana() >= 3) {
                 chosenCreature = chooseCreature(new FireWolf());
                 statusLabel.setText("Umieść stwora");
-                for(int i = 0; i < 6; i ++)
-                {
+                for(int i = 0; i < 6; i ++) {
                     putButtons.getChildren().get(i).setVisible(true);
                 }
             }
-            else{
+            else {
                 statusLabel.setText("Nie masz wystarczającej ilości many!");
             }
-        }
-        );
+        });
 
         Button buy2 = new Button();
         buy2.setPrefWidth(170.0);
         buy2.setText("Kup: (5/14)\nKoszt: 5 many");
         buy2.setOnAction((e) -> {
-                    if (player.getCurrentMana()>=5) {
-                        chosenCreature = chooseCreature(new Phoenix());
-                        statusLabel.setText("Umieść stwora");
-                        for(int i = 0; i < 6; i ++)
-                        {
-                            putButtons.getChildren().get(i).setVisible(true);
-                        }
-                    }
-                    else{
-                        statusLabel.setText("Nie masz wystarczającej ilości many!");
-                    }
+            if (player.getCurrentMana() >= 5) {
+                chosenCreature = chooseCreature(new Phoenix());
+                statusLabel.setText("Umieść stwora");
+                for(int i = 0; i < 6; i ++) {
+                    putButtons.getChildren().get(i).setVisible(true);
                 }
-        );
+            }
+            else {
+                statusLabel.setText("Nie masz wystarczającej ilości many!");
+            }
+        });
 
         Button buy3 = new Button();
         buy3.setPrefWidth(170.0);
         buy3.setText("Kup: (15/20)\nKoszt: 10 many");
         buy3.setOnAction((e) -> {
-                    if (player.getCurrentMana()>=10) {
-                        chosenCreature = chooseCreature(new BlackDragon());
-                        statusLabel.setText("Umieść stwora");
-                        for(int i = 0; i < 6; i ++)
-                        {
-                            putButtons.getChildren().get(i).setVisible(true);
-                        }
-                    }
-                    else{
-                        statusLabel.setText("Nie masz wystarczającej ilości many!");
-                    }
+            if (player.getCurrentMana() >= 10) {
+                chosenCreature = chooseCreature(new BlackDragon());
+                statusLabel.setText("Umieść stwora");
+                for (int i = 0; i < 6; i++) {
+                    putButtons.getChildren().get(i).setVisible(true);
                 }
-        );
+            }
+            else {
+                statusLabel.setText("Nie masz wystarczającej ilości many!");
+            }
+        });
 
         buyButtons.setPrefWrapLength(boardWidth);
         buyButtons.setAlignment(Pos.CENTER);
@@ -417,163 +446,17 @@ public class ElementalClash extends Application {
         buyButtons.getChildren().add(buy3);
 
         Button put1 = new Button();
-        put1.setVisible(false);
-        put1.setPrefWidth(110.0);
-        put1.setText("Umieść");
-        put1.setOnAction((e) -> {
-            if (!playerChecker.isOccupied(0)) {
-                if (chosenCreature != null) {
-                    createCreature(player, 0, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
-                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
-                    chosenCreature = null;
-                    statusLabel.setText("Faza ataku");
-                    sleeper(1000);
-                           /* AttackTask<Void> attackTask = new AttackTask<>(player, computer);
-                           new Thread(attackTask).start();
-                });*/
-                    processMyAttacks(player, computer);
-                    if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
-                        processAIAttacks(computer, player);
-                    }
-                    }
-             else {
-                System.out.println("Nie wybrano stwora!");
-            }
-        }
-            else{
-                System.out.println("Miejsce zajęte!");
-            }
-        });
-
         Button put2 = new Button();
-        put2.setVisible(false);
-        put2.setPrefWidth(110.0);
-        put2.setText("Umieść");
-        put2.setOnAction((e) -> {
-            if(!playerChecker.isOccupied(1)) {
-                if (chosenCreature != null) {
-                    createCreature(player,1, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
-                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
-                    chosenCreature = null;
-                    statusLabel.setText("Faza ataku");
-                    sleeper(1000);
-                    processMyAttacks(player, computer);
-                    if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
-                        processAIAttacks(computer, player);
-                    }
-                } else {
-                    System.out.println("Nie wybrano stwora!");
-                }
-            }
-            else{
-                System.out.println("Miejsce zajęte!");
-            }
-        });
-
         Button put3 = new Button();
-        put3.setVisible(false);
-        put3.setPrefWidth(110.0);
-        put3.setText("Umieść");
-        put3.setOnAction((e) -> {
-            if(!playerChecker.isOccupied(2)) {
-                if (chosenCreature != null) {
-                    createCreature(player, 2, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
-                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
-                    statusLabel.setText("Faza ataku");
-                    sleeper(1000);
-                    processMyAttacks(player, computer);
-                    if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
-                        processAIAttacks(computer, player);
-                    }
-                } else {
-                    System.out.println("Nie wybrano stwora!");
-                }
-            }
-            else{
-                System.out.println("Miejsce zajęte!");
-            }
-        });
-
         Button put4 = new Button();
-        put4.setVisible(false);
-        put4.setPrefWidth(110.0);
-        put4.setText("Umieść");
-        put4.setOnAction((e) -> {
-            if(!playerChecker.isOccupied(3)) {
-                if (chosenCreature != null) {
-                    createCreature(player,3, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
-                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
-                    chosenCreature = null;
-                    statusLabel.setText("Faza ataku");
-                    sleeper(1000);
-                    processMyAttacks(player, computer);
-                    if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
-                        processAIAttacks(computer, player);
-                    }
-                } else {
-                    System.out.println("Nie wybrano stwora!");
-                }
-            }
-            else{
-                System.out.println("Miejsce zajęte!");
-            }
-        });
-
         Button put5 = new Button();
-        put5.setVisible(false);
-        put5.setPrefWidth(110.0);
-        put5.setText("Umieść");
-        put5.setOnAction((e) -> {
-            if(!playerChecker.isOccupied(4)) {
-                if (chosenCreature != null) {
-                    createCreature(player,4, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
-                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
-                    chosenCreature = null;
-                    statusLabel.setText("Faza ataku");
-                    sleeper(1000);
-                    processMyAttacks(player, computer);
-                    if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
-                        processAIAttacks(computer, player);
-                    }
-                } else {
-                    System.out.println("Nie wybrano stwora!");
-                }
-            }
-            else{
-                System.out.println("Miejsce zajęte!");
-            }
-        });
-
         Button put6 = new Button();
-        put6.setVisible(false);
-        put6.setPrefWidth(110.0);
-        put6.setText("Umieść");
-        put6.setOnAction((e) -> {
-            if(!playerChecker.isOccupied(5)) {
-                if (chosenCreature != null) {
-                    createCreature(player,5, chosenCreature, myBattlefield, myCreaturesStats, playerChecker);
-                    playerManaLbl.setText("Mana: " + player.getCurrentMana());
-                    chosenCreature = null;
-                    statusLabel.setText("Faza ataku");
-                    sleeper(1000);
-                    processMyAttacks(player, computer);
-                    if(!endOfGame) {
-                        AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
-                        processAIAttacks(computer, player);
-                    }
-                } else {
-                    System.out.println("Nie wybrano stwora!");
-                }
-            }
-            else{
-                System.out.println("Miejsce zajęte!");
-            }
-        });
+        generatePutButton(put1, 0);
+        generatePutButton(put2, 1);
+        generatePutButton(put3, 2);
+        generatePutButton(put4, 3);
+        generatePutButton(put5, 4);
+        generatePutButton(put6, 5);
 
         saveMana.setPrefWidth(160.0);
         saveMana.setText("Gromadź manę (+2)");
@@ -584,7 +467,7 @@ public class ElementalClash extends Application {
             sleeper(1000);
             processMyAttacks(player, computer);
             if(!endOfGame) {
-                AIdecidionsMaker.makeDecision(computer, AIChecker, playerChecker, AIBattlefield, AICreaturesStats);
+                AIdecidionsMaker.makeDecision(computer, aiChecker, playerChecker, aiBattlefield, aiCreaturesStats);
                 processAIAttacks(computer, player);
             }
                 }
@@ -595,8 +478,7 @@ public class ElementalClash extends Application {
         newGame.setOnAction((e) -> {
             endOfGame = false;
             chosenCreature = null;
-            NewGameStarter.startNewGame(player, computer, playerManaLbl, computerManaLbl, playerChecker, AIChecker, myBattlefield, AIBattlefield,
-                    myCreaturesStats, AICreaturesStats, saveMana, buyButtons, statusLabel, putButtons);
+            NewGameStarter.startNewGame();
                 }
         );
 
@@ -610,10 +492,10 @@ public class ElementalClash extends Application {
         putButtons.getChildren().add(put5);
         putButtons.getChildren().add(put6);
 
-        AICreaturesStats.setPrefWrapLength(boardWidth);
-        AICreaturesStats.setAlignment(Pos.CENTER);
-        AICreaturesStats.setHgap(10);
-        AICreaturesStats.setPrefHeight(20);
+        aiCreaturesStats.setPrefWrapLength(boardWidth);
+        aiCreaturesStats.setAlignment(Pos.CENTER);
+        aiCreaturesStats.setHgap(10);
+        aiCreaturesStats.setPrefHeight(20);
         for(int i = 0; i < 6; i++) {
             Label label = new Label();
             label.setAlignment(Pos.CENTER);
@@ -621,7 +503,7 @@ public class ElementalClash extends Application {
             label.setTextFill(Color.web("#FFF"));
             label.setText(" ");
             label.setPrefWidth(110.0);
-            AICreaturesStats.getChildren().add(label);
+            aiCreaturesStats.getChildren().add(label);
         }
 
         myCreaturesStats.setPrefWrapLength(boardWidth);
@@ -643,9 +525,9 @@ public class ElementalClash extends Application {
         grid.add(playerStats,0,3,1,1);
         grid.add(statusLabel, 0, 6, 1, 1);
         grid.add(saveMana, 0, 7, 1,1);
-        grid.add(AIBuildings, 1,0,1,1);
-        grid.add(AICreaturesStats, 1, 1, 1, 1);
-        grid.add(AIBattlefield, 1,2,1,1);
+        grid.add(aiBuildings, 1,0,1,1);
+        grid.add(aiCreaturesStats, 1, 1, 1, 1);
+        grid.add(aiBattlefield, 1,2,1,1);
         grid.add(myBattlefield,1,3,1,1);
         grid.add(myCreaturesStats, 1, 4, 1, 1);
         grid.add(putButtons,1,5,1,1);
